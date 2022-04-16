@@ -4,7 +4,6 @@ import cat.udl.eps.softarch.demo.domain.User;
 import cat.udl.eps.softarch.demo.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterLinkSave;
@@ -29,46 +28,48 @@ public class UserEventHandler {
     }
 
     @HandleBeforeCreate
-    public void handleUserPreCreate(User player) { logger.info("Before creating: {}", player.toString()); }
+    public void handleUserPreCreate(User user) {
+        logger.info("Before creating: {}", user.toString());
+    }
 
     @HandleBeforeSave
-    public void handleUserPreSave(User player) {
-        logger.info("Before updating: {}", player.toString());
+    public void handleUserPreSave(User user) {
+        logger.info("Before updating: {}", user.toString());
     }
 
     @HandleBeforeDelete
-    public void handleUserPreDelete(User player) {
-        logger.info("Before deleting: {}", player.toString());
+    public void handleUserPreDelete(User user) {
+        logger.info("Before deleting: {}", user.toString());
     }
 
     @HandleBeforeLinkSave
-    public void handleUserPreLinkSave(User player, Object o) {
-        logger.info("Before linking: {} to {}", player.toString(), o.toString());
+    public void handleUserPreLinkSave(User user, Object o) {
+        logger.info("Before linking: {} to {}", user.toString(), o.toString());
     }
 
     @HandleAfterCreate
-    public void handleUserPostCreate(User player) {
-        logger.info("After creating: {}", player.toString());
-        player.encodePassword();
-        userRepository.save(player);
+    public void handleUserPostCreate(User user) {
+        logger.info("After creating: {}", user.toString());
+        user.encodePassword();
+        userRepository.save(user);
     }
 
     @HandleAfterSave
-    public void handleUserPostSave(User player) {
-        logger.info("After updating: {}", player.toString());
-        if (player.isPasswordReset()) {
-            player.encodePassword();
+    public void handleUserPostSave(User user) {
+        logger.info("After updating: {}", user.toString());
+        if (user.isPasswordReset()) {
+            user.encodePassword();
         }
-        userRepository.save(player);
+        userRepository.save(user);
     }
 
     @HandleAfterDelete
-    public void handleUserPostDelete(User player) {
-        logger.info("After deleting: {}", player.toString());
+    public void handleUserPostDelete(User user) {
+        logger.info("After deleting: {}", user.toString());
     }
 
     @HandleAfterLinkSave
-    public void handleUserPostLinkSave(User player, Object o) {
-        logger.info("After linking: {} to {}", player.toString(), o.toString());
+    public void handleUserPostLinkSave(User user, Object o) {
+        logger.info("After linking: {} to {}", user.toString(), o.toString());
     }
 }
