@@ -1,4 +1,7 @@
-allowed-origins: https://angular-template.fly.dev
+allowed-origins: "https://angular-template.fly.dev, https://deploy-preview-*--angular-template.fly.dev"
+
+server:
+  forward-headers-strategy: NATIVE
 
 logging:
     level:
@@ -7,15 +10,3 @@ logging:
             springframework.core: error
             springframework.web: error
         root: error
-
-spring:
-    datasource:
-        driverClassName: org.postgresql.Driver
-        initialSize: 5
-        maxActive: 10
-        maxIdle: 5
-        minIdle: 2
-        removeAbandoned: true
-    jpa:
-        hibernate:
-            ddl-auto: update
