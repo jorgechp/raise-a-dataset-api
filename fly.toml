@@ -6,6 +6,7 @@ app = "spring-template"
 [env]
     JAVA_OPTS = "-XX:MaxRAM=70m"
     SPRING_PROFILES_ACTIVE = "flyio"
+    SERVER_FORWARD_HEADERS_STRATEGY = "NATIVE"
 
 [[services]]
     internal_port = 8080
