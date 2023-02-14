@@ -21,10 +21,10 @@ public class DBInitialization {
     @PostConstruct
     public void initializeDatabase() {
         // Default user
-        if (!userRepository.existsById("user")) {
+        if (!userRepository.existsById("demo")) {
             User user = new User();
-            user.setEmail("user@sample.app");
-            user.setUsername("user");
+            user.setEmail("demo@sample.app");
+            user.setUsername("demo");
             user.setPassword(defaultPassword);
             user.encodePassword();
             userRepository.save(user);
@@ -32,12 +32,12 @@ public class DBInitialization {
         if (Arrays.asList(activeProfiles.split(",")).contains("test")) {
             // Testing instances
             if (!userRepository.existsById("test")) {
-                User test = new User();
-                test.setEmail("test@sample.app");
-                test.setUsername("test");
-                test.setPassword(defaultPassword);
-                test.encodePassword();
-                userRepository.save(test);
+                User user = new User();
+                user.setEmail("test@sample.app");
+                user.setUsername("test");
+                user.setPassword(defaultPassword);
+                user.encodePassword();
+                userRepository.save(user);
             }
         }
     }
