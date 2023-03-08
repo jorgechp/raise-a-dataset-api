@@ -17,6 +17,8 @@ import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 
+import java.nio.charset.StandardCharsets;
+
 public class RegisterStepDefs {
 
   @Autowired
@@ -82,6 +84,7 @@ public class RegisterStepDefs {
                     .content(new JSONObject(
                             stepDefs.mapper.writeValueAsString(user)
                     ).put("password", password).toString())
+                    .characterEncoding(StandardCharsets.UTF_8)
                     .accept(MediaType.APPLICATION_JSON)
                     .with(AuthenticationStepDefs.authenticate()))
             .andDo(print());
