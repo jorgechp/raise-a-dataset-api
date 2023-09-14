@@ -4,19 +4,19 @@ app = "spring-template"
 #   image = "udlepssoftarch/spring-template:latest"
 
 [env]
-    JAVA_OPTS = "-XX:MaxRAM=70m"
-    SPRING_PROFILES_ACTIVE = "flyio"
-    SERVER_FORWARD_HEADERS_STRATEGY = "NATIVE"
+  JAVA_OPTS = "-XX:MaxRAM=70m"
+  SERVER_FORWARD_HEADERS_STRATEGY = "NATIVE"
+  SPRING_PROFILES_ACTIVE = "flyio"
 
 [[services]]
-    internal_port = 8080
-    protocol = "tcp"
+  internal_port = 8080
+  protocol = "tcp"
 
-[[services.ports]]
+  [[services.ports]]
     force_https = true
     handlers = ["http"]
     port = 80
 
-[[services.ports]]
+  [[services.ports]]
     handlers = ["tls", "http"]
-    port = "443"
+    port = 443

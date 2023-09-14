@@ -1,4 +1,4 @@
-FROM ibm-semeru-runtimes:open-11-jre-focal
+FROM ibm-semeru-runtimes:open-17-jre-focal
 
 WORKDIR /home/app
 
