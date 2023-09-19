@@ -35,10 +35,10 @@ public class WebSecurityConfig {
                 .requestMatchers(HttpMethod.PATCH, "/**/*").authenticated()
                 .requestMatchers(HttpMethod.DELETE, "/**/*").authenticated()
                 .anyRequest().permitAll())
-                .csrf((csrf) -> csrf.disable())
-                .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .cors((cors) -> cors.configurationSource(corsConfigurationSource()))
-                .httpBasic((httpBasic) -> httpBasic.realmName("demo"));
+            .csrf((csrf) -> csrf.disable())
+            .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .cors((cors) -> cors.configurationSource(corsConfigurationSource()))
+            .httpBasic((httpBasic) -> httpBasic.realmName("demo"));
         return http.build();
     }
 

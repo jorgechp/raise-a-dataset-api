@@ -27,7 +27,7 @@ public class User extends UriEntity<String> implements UserDetails {
 	public static PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	@Id
-	private String username;
+	private String id;
 
 	@NotBlank
 	@Email
@@ -47,7 +47,7 @@ public class User extends UriEntity<String> implements UserDetails {
 	}
 
 	@Override
-	public String getId() { return username; }
+	public String getUsername() { return id; }
 
 	@Override
 	@JsonValue(value = false)

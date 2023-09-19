@@ -24,7 +24,7 @@ public class DBInitialization {
         if (!userRepository.existsById("demo")) {
             User user = new User();
             user.setEmail("demo@sample.app");
-            user.setUsername("demo");
+            user.setId("demo");
             user.setPassword(defaultPassword);
             user.encodePassword();
             userRepository.save(user);
@@ -34,7 +34,7 @@ public class DBInitialization {
             if (!userRepository.existsById("test")) {
                 User user = new User();
                 user.setEmail("test@sample.app");
-                user.setUsername("test");
+                user.setId("test");
                 user.setPassword(defaultPassword);
                 user.encodePassword();
                 userRepository.save(user);

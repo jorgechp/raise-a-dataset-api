@@ -21,5 +21,5 @@ public interface UserRepository extends CrudRepository<User, String>, PagingAndS
    * https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.query-creation
    */
 
-  List<User> findByUsernameContaining(@Param("text") String text);
+  List<User> findByIdContaining(@Param("text") String text);
 }

@@ -39,7 +39,7 @@ public class RegisterStepDefs {
     if (!userRepository.existsById(username)) {
       User user = new User();
       user.setEmail(email);
-      user.setUsername(username);
+      user.setId(username);
       user.setPassword(password);
       user.encodePassword();
       userRepository.save(user);
@@ -75,7 +75,7 @@ public class RegisterStepDefs {
   @When("^I register a new user with username \"([^\"]*)\", email \"([^\"]*)\" and password \"([^\"]*)\"$")
   public void iRegisterANewUserWithUsernameEmailAndPassword(String username, String email, String password) throws Throwable {
     User user = new User();
-    user.setUsername(username);
+    user.setId(username);
     user.setEmail(email);
 
     stepDefs.result = stepDefs.mockMvc.perform(
