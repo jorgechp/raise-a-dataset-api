@@ -17,9 +17,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Collection;
+import java.util.Set;
 
 @Entity
-@Table(name = "DemoUser") //Avoid collision with system table User
+@Table(name = "AppUser") //Avoid collision with system table User
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class User extends UriEntity<String> implements UserDetails {
@@ -41,6 +42,12 @@ public class User extends UriEntity<String> implements UserDetails {
 
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private boolean passwordReset;
+
+	@ManyToMany
+	private Set<Dataset> datasets;
+
+	@ManyToMany
+	private Set<FAIRPrincipleVerificationInstance> verifications;
 
 	public void encodePassword() {
 		this.password = passwordEncoder.encode(this.password);
@@ -77,4 +84,7 @@ public class User extends UriEntity<String> implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
+
+
+
 }
