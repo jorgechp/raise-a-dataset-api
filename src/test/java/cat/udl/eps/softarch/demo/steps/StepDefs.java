@@ -1,12 +1,6 @@
 package cat.udl.eps.softarch.demo.steps;
 
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import cat.udl.eps.softarch.demo.DemoApplication;
+import cat.udl.eps.softarch.demo.RaiseDatasetApi;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.cucumber.java.Before;
@@ -27,8 +21,12 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.hamcrest.Matchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @ContextConfiguration(
-	classes = {DemoApplication.class},
+	classes = {RaiseDatasetApi.class},
 	loader = SpringBootContextLoader.class
 )
 @DirtiesContext

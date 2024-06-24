@@ -1,12 +1,5 @@
 package cat.udl.eps.softarch.demo.steps;
 
-import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import cat.udl.eps.softarch.demo.domain.User;
 import cat.udl.eps.softarch.demo.repository.UserRepository;
 import io.cucumber.java.en.And;
@@ -19,11 +12,20 @@ import org.springframework.http.MediaType;
 
 import java.nio.charset.StandardCharsets;
 
+import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 public class RegisterStepDefs {
 
+  @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
   @Autowired
   private StepDefs stepDefs;
 
+  @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
   @Autowired
   private UserRepository userRepository;
 
@@ -31,15 +33,15 @@ public class RegisterStepDefs {
   public void thereIsNoRegisteredUserWithUsername(String user) {
     Assert.assertFalse("User \""
                     +  user + "\"shouldn't exist",
-                    userRepository.existsById(user));
+                    userRepository.existsByUsername(user));
   }
 
   @Given("^There is a registered user with username \"([^\"]*)\" and password \"([^\"]*)\" and email \"([^\"]*)\"$")
   public void thereIsARegisteredUserWithUsernameAndPasswordAndEmail(String username, String password, String email) {
-    if (!userRepository.existsById(username)) {
+    if (userRepository.findByUsername(username).isEmpty()) {
       User user = new User();
       user.setEmail(email);
-      user.setId(username);
+      user.setUsername(username);
       user.setPassword(password);
       user.encodePassword();
       userRepository.save(user);
@@ -75,7 +77,7 @@ public class RegisterStepDefs {
   @When("^I register a new user with username \"([^\"]*)\", email \"([^\"]*)\" and password \"([^\"]*)\"$")
   public void iRegisterANewUserWithUsernameEmailAndPassword(String username, String email, String password) throws Throwable {
     User user = new User();
-    user.setId(username);
+    user.setUsername(username);
     user.setEmail(email);
 
     stepDefs.result = stepDefs.mockMvc.perform(

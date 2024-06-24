@@ -1,7 +1,6 @@
 package cat.udl.eps.softarch.demo.config;
 
 import cat.udl.eps.softarch.demo.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,7 +17,7 @@ public class BasicUserDetailsService implements UserDetailsService {
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    return userRepository.findById(username)
+    return userRepository.findByUsername(username)
         .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
   }
 }

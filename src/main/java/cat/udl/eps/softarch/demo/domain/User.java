@@ -1,12 +1,10 @@
 package cat.udl.eps.softarch.demo.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+import com.fasterxml.jackson.annotation.JsonValue;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-
-import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
@@ -28,7 +26,10 @@ public class User extends UriEntity<String> implements UserDetails {
 	public static PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	@Id
-	private String id;
+	@GeneratedValue
+	private Long id;
+
+	private String username;
 
 	@NotBlank
 	@Email
@@ -54,9 +55,12 @@ public class User extends UriEntity<String> implements UserDetails {
 	}
 
 	@Override
-	public String getUsername() { return id; }
+	public String getUsername() { return username; }
 
-	public void setUsername(String username) { this.id = username; }
+	@Override
+	public String getId() { return username; }
+
+	public void setUsername(String username) { this.username = username; }
 
 	@Override
 	@JsonValue(value = false)

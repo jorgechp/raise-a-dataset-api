@@ -1,6 +1,6 @@
 package cat.udl.eps.softarch.demo.repository;
 
-import cat.udl.eps.softarch.demo.domain.User;
+import cat.udl.eps.softarch.demo.domain.FAIRPrinciple;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
@@ -9,7 +9,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import java.util.Optional;
 
 @RepositoryRestResource
-public interface UserRepository extends CrudRepository<User, Long>, PagingAndSortingRepository<User, Long> {
+public interface FAIRPrincipleRepository extends CrudRepository<FAIRPrinciple, Long>, PagingAndSortingRepository<FAIRPrinciple, Long> {
 
   /* Interface provides automatically, as defined in
    * https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/CrudRepository.html
@@ -21,8 +21,7 @@ public interface UserRepository extends CrudRepository<User, Long>, PagingAndSor
    * https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.query-creation
    */
 
+   Optional<FAIRPrinciple> findByName(@Param("name") String name);
 
-  Optional<User> findByUsername(@Param("text") String text);
 
-  boolean existsByUsername(@Param("text") String text);
 }
