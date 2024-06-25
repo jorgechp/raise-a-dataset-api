@@ -1,11 +1,11 @@
 package cat.udl.eps.softarch.demo.steps;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.anonymous;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
-
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
+
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.anonymous;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 
 public class AuthenticationStepDefs {
 
@@ -15,8 +15,8 @@ public class AuthenticationStepDefs {
     @Before
     public void setup() {
         // Clear authentication credentials at the start of every test.
-        AuthenticationStepDefs.currentPassword = "";
-        AuthenticationStepDefs.currentUsername = "";
+        AuthenticationStepDefs.currentPassword = "password";
+        AuthenticationStepDefs.currentUsername = "demo";
     }
 
     static RequestPostProcessor authenticate() {
