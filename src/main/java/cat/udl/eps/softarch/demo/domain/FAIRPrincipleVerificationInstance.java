@@ -2,13 +2,15 @@ package cat.udl.eps.softarch.demo.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.Set;
 
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-public class FAIRPrincipleVerificationInstance {
+public class FAIRPrincipleVerificationInstance extends UriEntity<Long>{
     @Id
     @GeneratedValue
     private Long id;

@@ -1,15 +1,14 @@
 package cat.udl.eps.softarch.demo.repository;
 
-import cat.udl.eps.softarch.demo.domain.FAIRPrinciple;
+import cat.udl.eps.softarch.demo.domain.FAIRPrincipleVerificationInstance;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
-import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-import java.util.Optional;
-
 @RepositoryRestResource
-public interface FAIRPrincipleRepository extends CrudRepository<FAIRPrinciple, Long>, PagingAndSortingRepository<FAIRPrinciple, Long> {
+public interface FAIRPrincipleVerificationInstanceRepository extends
+        CrudRepository<FAIRPrincipleVerificationInstance, Long>,
+        PagingAndSortingRepository<FAIRPrincipleVerificationInstance, Long> {
 
   /* Interface provides automatically, as defined in
    * https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/CrudRepository.html
@@ -21,6 +20,7 @@ public interface FAIRPrincipleRepository extends CrudRepository<FAIRPrinciple, L
    * https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.query-creation
    */
 
-   Optional<FAIRPrinciple> findByName(@Param("name") String name);
+
+
 
 }
