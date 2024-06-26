@@ -8,9 +8,8 @@ import org.springframework.stereotype.Component;
 @org.springframework.data.rest.core.annotation.RepositoryEventHandler
 public class FAIRPrincipleEventHandler {
 
-
-
     final FAIRPrincipleRepository fairRepository;
+
 
     public FAIRPrincipleEventHandler(FAIRPrincipleRepository fairRepository) {
         this.fairRepository = fairRepository;
