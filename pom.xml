@@ -8,7 +8,7 @@
 		<version>3.2.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>cat.udl.eps.softarch</groupId>
+	<groupId>cat.udl.eps.raise</groupId>
 	<artifactId>spring-template</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>spring-template</name>
