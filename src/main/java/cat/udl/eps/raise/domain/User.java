@@ -21,7 +21,7 @@ import java.util.Set;
 @Table(name = "AppUser") //Avoid collision with system table User
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class User extends UriEntity<String> implements UserDetails {
+public class User extends UriEntity<Long> implements UserDetails {
 
 	public static PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -58,7 +58,7 @@ public class User extends UriEntity<String> implements UserDetails {
 	public String getUsername() { return username; }
 
 	@Override
-	public String getId() { return username; }
+	public Long getId() { return id; }
 
 	public void setUsername(String username) { this.username = username; }
 

@@ -68,8 +68,9 @@ public class DBInitialization {
         if(repositoryRepository.findByName("demoRepository").isEmpty()){
             Repository repository = new Repository();
             repository.setName("DemoRepository");
-            repository.setUrl("https://demo.repository.com");
+            repository.setAddress("https://demo.repository.com");
             repository.setDescription("This is a demo repository.");
+            repository.setAddedBy(this.demoUser);
             repositoryRepository.save(repository);
         }
 
