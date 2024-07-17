@@ -1,9 +1,6 @@
 package cat.udl.eps.raise.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -22,6 +19,7 @@ public class Dataset extends UriEntity<Long> {
     private Long id;
 
     @NotBlank
+    @Column(unique=true)
     private String name;
     @NotBlank
     private String author;
@@ -34,6 +32,10 @@ public class Dataset extends UriEntity<Long> {
 
     @ManyToMany
     private Set<User> authorInSystem;
+
+    @ManyToMany
+    private Set<Repository> repositories;
+
     @Override
     public Long getId() { return id; }
 }

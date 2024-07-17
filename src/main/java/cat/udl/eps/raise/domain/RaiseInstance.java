@@ -15,6 +15,9 @@ public class RaiseInstance extends UriEntity<Long> {
     @GeneratedValue
     private Long id;
 
+    @Column(unique = true)
+    private String doi;
+
     @OneToOne
     private Dataset dataset;
     @OneToOne

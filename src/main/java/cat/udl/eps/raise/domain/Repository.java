@@ -1,13 +1,12 @@
 package cat.udl.eps.raise.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -32,6 +31,9 @@ public class Repository extends UriEntity<Long>{
     @NotNull
     @ManyToOne
     private User addedBy;
+
+    @ManyToMany
+    private Set<Dataset> datasets;
 
     @Override
     public Long getId() { return id; }
