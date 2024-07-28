@@ -40,7 +40,8 @@ public class NewDatasetStepDefs {
         newDataset.setDescription(description);
         newDataset.setCreationDate(formattedCreationDate);
         newDataset.setRegistrationDate(formattedRegistrationDate);
-        newDataset.setAuthor(author);
+        newDataset.setCreatedBy(author);
+        newDataset.setRegisteredBy(author);
 
         stepDefs.result = stepDefs.mockMvc.perform(
                         post("/datasets")

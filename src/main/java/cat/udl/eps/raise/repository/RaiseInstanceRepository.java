@@ -3,7 +3,11 @@ package cat.udl.eps.raise.repository;
 import cat.udl.eps.raise.domain.RaiseInstance;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+
+import java.util.List;
+import java.util.Optional;
 
 
 @RepositoryRestResource
@@ -19,4 +23,8 @@ public interface RaiseInstanceRepository extends CrudRepository<RaiseInstance, L
    * https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.query-creation
    */
 
+
+
+    Optional<RaiseInstance> findByDoi(@Param("doi") String doi);
+    Optional<List<RaiseInstance>> findAllByDatasetId(@Param("id") Long id);
 }

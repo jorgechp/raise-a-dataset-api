@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.sql.Time;
+import java.time.LocalDate;
 
 
 @EqualsAndHashCode(callSuper = true)
@@ -18,12 +18,14 @@ public class RaiseInstance extends UriEntity<Long> {
     @Column(unique = true)
     private String doi;
 
-    @OneToOne
+    @ManyToOne
     private Dataset dataset;
+
     @OneToOne
     private Repository repository;
+
     @ManyToOne
     private User user;
-    private Time date;
+    private LocalDate date;
 
 }

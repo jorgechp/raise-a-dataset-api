@@ -22,7 +22,9 @@ public class Dataset extends UriEntity<Long> {
     @Column(unique=true)
     private String name;
     @NotBlank
-    private String author;
+    private String createdBy;
+    @NotBlank
+    private String registeredBy;
 
     private String description;
     @NotNull
@@ -31,7 +33,7 @@ public class Dataset extends UriEntity<Long> {
     private LocalDate registrationDate;
 
     @ManyToMany
-    private Set<User> authorInSystem;
+    private Set<User> maintainedBy;
 
     @ManyToMany
     private Set<Repository> repositories;

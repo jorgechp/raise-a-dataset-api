@@ -44,7 +44,7 @@ public class WebSecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/identity").authenticated()
                 .requestMatchers(HttpMethod.POST, "/users").anonymous()
                 .requestMatchers(HttpMethod.POST, "/users/*").denyAll()
-                .requestMatchers(HttpMethod.POST, "/repositories").hasRole("USER")
+                .requestMatchers(HttpMethod.POST, "/repositories/*").hasRole("USER")
                 .requestMatchers(HttpMethod.POST, "/fAIRPrinciples/*").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/fAIRPrinciples/*").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.POST, "/*/*").authenticated()
