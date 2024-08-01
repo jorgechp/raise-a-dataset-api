@@ -28,5 +28,7 @@ public interface RaiseInstanceRepository extends CrudRepository<RaiseInstance, L
     Optional<RaiseInstance> findByDoi(@Param("doi") String doi);
     Optional<List<RaiseInstance>> findAllByDatasetId(@Param("id") Long id);
 
+    Optional<List<RaiseInstance>> findAllByRepositoryId(@Param("id") Long id);
+
     Optional<List<RaiseInstance>> findAllByUserUsername(@Param("username") String username);
 }
