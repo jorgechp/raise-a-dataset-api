@@ -2,6 +2,7 @@ package cat.udl.eps.raise.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -27,6 +28,9 @@ public class FAIRPrinciple extends UriEntity<Long>{
 
     @Enumerated(EnumType.ORDINAL)
     private FAIRCategories category;
+
+    @NotNull
+    private short difficulty;
 
     @Override
     public Long getId() { return id; }

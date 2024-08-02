@@ -22,6 +22,8 @@ public class DBInitialization {
     private final RepositoryRepository repositoryRepository;
     private final DatasetRepository datasetRepository;
     private final FAIRPrincipleRepository fairRepository;
+
+    private final FAIRPrincipleVerificationInstanceRepository fairVerificationInstanceRepository;
     private final RaiseInstanceRepository raiseInstanceRepository;
 
 
@@ -31,18 +33,22 @@ public class DBInitialization {
                             RepositoryRepository repositoryRepository,
                             DatasetRepository datasetRepository,
                             FAIRPrincipleRepository fairRepository,
-                            RaiseInstanceRepository raiseInstanceRepository) {
+                            RaiseInstanceRepository raiseInstanceRepository,
+                            FAIRPrincipleVerificationInstanceRepository fairVerificationInstanceRepository) {
         this.userRepository = userRepository;
         this.repositoryRepository = repositoryRepository;
         this.datasetRepository = datasetRepository;
         this.fairRepository = fairRepository;
         this.raiseInstanceRepository = raiseInstanceRepository;
+        this.fairVerificationInstanceRepository = fairVerificationInstanceRepository;
     }
 
     @PostConstruct
     public void initializeDatabase() {
         Dataset createdDataset;
         Repository createdRepository;
+        RaiseInstance raiseInstance = null;
+        FAIRPrinciple fairPrinciple = null;
 
         // Default user
         if (userRepository.findByUsername("demo").isEmpty()) {
@@ -99,7 +105,7 @@ public class DBInitialization {
         }
 
         if(raiseInstanceRepository.findByDoi("10.1080/02626667.2018.1560449").isEmpty()){
-            RaiseInstance raiseInstance = new RaiseInstance();
+            raiseInstance = new RaiseInstance();
             raiseInstance.setUser(this.demoUser);
             raiseInstance.setDate(LocalDate.now());
             raiseInstance.setDataset(createdDataset);
@@ -109,15 +115,24 @@ public class DBInitialization {
         }
 
         if(fairRepository.findByName("demoFAIRPRINCIPLE").isEmpty()){
-            FAIRPrinciple principle = new FAIRPrinciple();
-            principle.setName("demoFAIRPRINCIPLE");
-            principle.setDescription("This is a demo dataset.");
-            principle.setCategory(FAIRCategories.ACCESIBILITY);
-            principle.setNamePrefix("A1.1");
-            principle.setUrl("https://demo.principle.com");
+            fairPrinciple = new FAIRPrinciple();
+            fairPrinciple.setName("demoFAIRPRINCIPLE");
+            fairPrinciple.setDescription("This is a demo dataset.");
+            fairPrinciple.setCategory(FAIRCategories.ACCESIBILITY);
+            fairPrinciple.setNamePrefix("A1.1");
+            fairPrinciple.setUrl("https://demo.principle.com");
+            fairPrinciple.setDifficulty((short)1);
 
-            fairRepository.save(principle);
+            fairRepository.save(fairPrinciple);
         }
 
+        if(raiseInstance != null && fairVerificationInstanceRepository.findByInstanceId(raiseInstance.getId()).isEmpty()){
+            FAIRPrincipleVerificationInstance instance = new FAIRPrincipleVerificationInstance();
+            instance.setInstance(raiseInstance);
+            instance.setAuthor(this.demoUser);
+            instance.setFairPrinciple(fairPrinciple);
+
+            fairVerificationInstanceRepository.save(instance);
+        }
     }
 }
