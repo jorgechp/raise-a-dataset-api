@@ -46,7 +46,7 @@ public class DBInitialization {
     @PostConstruct
     public void initializeDatabase() {
         Dataset createdDataset;
-        Repository createdRepository;
+        Repository createdRepository1, createdRepository2;
         RaiseInstance raiseInstance = null;
         FAIRPrinciple fairPrinciple = null;
 
@@ -81,9 +81,21 @@ public class DBInitialization {
             repository.setDescription("This is a demo repository.");
             repository.setAddedBy(this.demoUser);
             repositoryRepository.save(repository);
-            createdRepository = repository;
+            createdRepository1 = repository;
         }else{
-            createdRepository = repositoryRepository.findByName("demoRepository").get();
+            createdRepository1 = repositoryRepository.findByName("demoRepository").get();
+        }
+
+        if(repositoryRepository.findByName("demoRepository2").isEmpty()){
+            Repository repository = new Repository();
+            repository.setName("DemoRepository2");
+            repository.setAddress("https://demo2.repository.com");
+            repository.setDescription("This is another demo repository.");
+            repository.setAddedBy(this.demoUser);
+            repositoryRepository.save(repository);
+            createdRepository2 = repository;
+        }else{
+            createdRepository2 = repositoryRepository.findByName("demoRepository").get();
         }
 
 
@@ -109,8 +121,18 @@ public class DBInitialization {
             raiseInstance.setUser(this.demoUser);
             raiseInstance.setDate(LocalDate.now());
             raiseInstance.setDataset(createdDataset);
-            raiseInstance.setRepository(createdRepository);
+            raiseInstance.setRepository(createdRepository1);
             raiseInstance.setDoi("10.1080/02626667.2018.1560449");
+            raiseInstanceRepository.save(raiseInstance);
+        }
+
+        if(raiseInstanceRepository.findByDoi("10.1080/02626667.2018.1560448").isEmpty()){
+            raiseInstance = new RaiseInstance();
+            raiseInstance.setUser(this.demoUser);
+            raiseInstance.setDate(LocalDate.now());
+            raiseInstance.setDataset(createdDataset);
+            raiseInstance.setRepository(createdRepository2);
+            raiseInstance.setDoi("10.1080/02626667.2018.1560448");
             raiseInstanceRepository.save(raiseInstance);
         }
 

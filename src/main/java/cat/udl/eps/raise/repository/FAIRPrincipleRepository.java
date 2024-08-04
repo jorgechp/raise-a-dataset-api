@@ -1,11 +1,13 @@
 package cat.udl.eps.raise.repository;
 
 import cat.udl.eps.raise.domain.FAIRPrinciple;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
+import java.util.List;
 import java.util.Optional;
 
 @RepositoryRestResource
@@ -22,5 +24,9 @@ public interface FAIRPrincipleRepository extends CrudRepository<FAIRPrinciple, L
    */
 
    Optional<FAIRPrinciple> findByName(@Param("name") String name);
+
+   @Query("SELECT fp FROM FAIRPrinciple fp WHERE fp.id NOT IN " +
+           "(SELECT fpvi.fairPrinciple.id FROM FAIRPrincipleVerificationInstance fpvi WHERE fpvi.instance.id = :raiseInstanceId)")
+   Optional<List<FAIRPrinciple>>  findUnverifiedPrinciplesByRaiseInstanceId (@Param("raiseInstanceId") Long raiseInstanceId);
 
 }
