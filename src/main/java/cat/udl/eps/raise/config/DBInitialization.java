@@ -45,10 +45,10 @@ public class DBInitialization {
 
     @PostConstruct
     public void initializeDatabase() {
-        Dataset createdDataset;
+        Dataset createdDataset, createdDataset2;
         Repository createdRepository1, createdRepository2;
-        RaiseInstance raiseInstance = null;
-        FAIRPrinciple fairPrinciple = null;
+        RaiseInstance raiseInstance = null, raiseInstance2 = null;
+        FAIRPrinciple fairPrinciple = null, fairPrinciple2 = null;
 
         // Default user
         if (userRepository.findByUsername("demo").isEmpty()) {
@@ -82,6 +82,14 @@ public class DBInitialization {
             repository.setAddedBy(this.demoUser);
             repositoryRepository.save(repository);
             createdRepository1 = repository;
+
+            Repository repository2 = new Repository();
+            repository2.setName("DemoRepository2");
+            repository2.setAddress("https://demo.repository.com");
+            repository2.setDescription("This is a demo repository 2.");
+            repository2.setAddedBy(this.demoUser);
+            repositoryRepository.save(repository2);
+            createdRepository2 = repository2;
         }else{
             createdRepository1 = repositoryRepository.findByName("demoRepository").get();
         }
@@ -112,6 +120,18 @@ public class DBInitialization {
             dataset.setMaintainedBy(authors);
             datasetRepository.save(dataset);
             createdDataset = dataset;
+
+            Dataset dataset2 = new Dataset();
+            dataset2.setName("DemoDataset2");
+            dataset2.setCreatedBy("María Dolores Fuertes de Cabeza");
+            dataset2.setRegisteredBy("Aurora Macarena Morales");
+            dataset2.setDescription("This is a demo dataset.");
+            dataset2.setRegistrationDate(LocalDate.now());
+            dataset2.setCreationDate(LocalDate.now().minusDays(50));
+            authors.add(this.demoUser);
+            dataset2.setMaintainedBy(authors);
+            datasetRepository.save(dataset2);
+            createdDataset2 = dataset2;
         }else{
             createdDataset = datasetRepository.findByName("demoDataset").get();
         }
@@ -124,6 +144,7 @@ public class DBInitialization {
             raiseInstance.setRepository(createdRepository1);
             raiseInstance.setDoi("10.1080/02626667.2018.1560449");
             raiseInstanceRepository.save(raiseInstance);
+
         }
 
         if(raiseInstanceRepository.findByDoi("10.1080/02626667.2018.1560448").isEmpty()){
@@ -146,6 +167,16 @@ public class DBInitialization {
             fairPrinciple.setDifficulty((short)1);
 
             fairRepository.save(fairPrinciple);
+
+            fairPrinciple2 = new FAIRPrinciple();
+            fairPrinciple2.setName("demoFAIRPRINCIPLE");
+            fairPrinciple2.setDescription("This is a demo dataset.");
+            fairPrinciple2.setCategory(FAIRCategories.ACCESIBILITY);
+            fairPrinciple2.setNamePrefix("A1.1");
+            fairPrinciple2.setUrl("https://demo.principle.com");
+            fairPrinciple2.setDifficulty((short)1);
+
+            fairRepository.save(fairPrinciple2);
         }
 
         if(raiseInstance != null && fairVerificationInstanceRepository.findByInstanceId(raiseInstance.getId()).isEmpty()){
@@ -153,6 +184,13 @@ public class DBInitialization {
             instance.setInstance(raiseInstance);
             instance.setAuthor(this.demoUser);
             instance.setFairPrinciple(fairPrinciple);
+
+            fairVerificationInstanceRepository.save(instance);
+
+            FAIRPrincipleVerificationInstance instance2 = new FAIRPrincipleVerificationInstance();
+            instance.setInstance(raiseInstance2);
+            instance.setAuthor(this.demoUser);
+            instance.setFairPrinciple(fairPrinciple2);
 
             fairVerificationInstanceRepository.save(instance);
         }

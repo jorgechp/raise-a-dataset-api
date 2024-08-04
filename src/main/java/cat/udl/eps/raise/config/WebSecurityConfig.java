@@ -47,6 +47,7 @@ public class WebSecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/repositories/*").hasRole("USER")
                 .requestMatchers(HttpMethod.POST, "/fAIRPrinciples/*").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/fAIRPrinciples/*").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/fAIRPrincipleVerificationInstances/*").hasRole("USER")
                 .requestMatchers(HttpMethod.POST, "/*/*").authenticated()
                 .requestMatchers(HttpMethod.PUT, "/*/*").authenticated()
                 .requestMatchers(HttpMethod.PATCH, "/*/*").authenticated()

@@ -1,6 +1,5 @@
 package cat.udl.eps.raise.repository;
 
-import cat.udl.eps.raise.domain.FAIRPrinciple;
 import cat.udl.eps.raise.domain.FAIRPrincipleVerificationInstance;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
