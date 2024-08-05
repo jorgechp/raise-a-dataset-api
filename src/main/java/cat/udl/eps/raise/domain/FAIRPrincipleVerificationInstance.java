@@ -10,9 +10,6 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-@Table(name = "fair_principle_verification_instance", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"instance_id", "fair_principle_id"})
-})
 public class FAIRPrincipleVerificationInstance extends UriEntity<Long>{
     @Id
     @GeneratedValue
@@ -22,12 +19,12 @@ public class FAIRPrincipleVerificationInstance extends UriEntity<Long>{
     private Set<User> verifiers;
 
     @ManyToOne
-    @JoinColumn(name="fair_principle_id")
     private FAIRPrinciple fairPrinciple;
+
     @ManyToOne
-    @JoinColumn(name="author_id")
     private User author;
+
     @ManyToOne
-    @JoinColumn(name="instance_id")
+    @JoinColumn(name = "raise_instance_id", nullable = false)
     private RaiseInstance instance;
 }

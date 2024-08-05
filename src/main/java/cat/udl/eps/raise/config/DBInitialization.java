@@ -148,13 +148,13 @@ public class DBInitialization {
         }
 
         if(raiseInstanceRepository.findByDoi("10.1080/02626667.2018.1560448").isEmpty()){
-            raiseInstance = new RaiseInstance();
-            raiseInstance.setUser(this.demoUser);
-            raiseInstance.setDate(LocalDate.now());
-            raiseInstance.setDataset(createdDataset);
-            raiseInstance.setRepository(createdRepository2);
-            raiseInstance.setDoi("10.1080/02626667.2018.1560448");
-            raiseInstanceRepository.save(raiseInstance);
+            raiseInstance2 = new RaiseInstance();
+            raiseInstance2.setUser(this.demoUser);
+            raiseInstance2.setDate(LocalDate.now());
+            raiseInstance2.setDataset(createdDataset);
+            raiseInstance2.setRepository(createdRepository2);
+            raiseInstance2.setDoi("10.1080/02626667.2018.1560448");
+            raiseInstanceRepository.save(raiseInstance2);
         }
 
         if(fairRepository.findByName("demoFAIRPRINCIPLE").isEmpty()){
@@ -187,12 +187,6 @@ public class DBInitialization {
 
             fairVerificationInstanceRepository.save(instance);
 
-            FAIRPrincipleVerificationInstance instance2 = new FAIRPrincipleVerificationInstance();
-            instance.setInstance(raiseInstance2);
-            instance.setAuthor(this.demoUser);
-            instance.setFairPrinciple(fairPrinciple2);
-
-            fairVerificationInstanceRepository.save(instance);
         }
     }
 }

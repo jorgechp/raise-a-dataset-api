@@ -21,7 +21,7 @@ public class RaiseInstance extends UriEntity<Long> {
     @ManyToOne
     private Dataset dataset;
 
-    @OneToOne
+    @ManyToOne
     private Repository repository;
 
     @ManyToOne
