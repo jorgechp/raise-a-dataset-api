@@ -1,5 +1,6 @@
 package cat.udl.eps.raise.config;
 
+import cat.udl.eps.raise.config.fair_principles.FairPrinciplesList;
 import cat.udl.eps.raise.domain.*;
 import cat.udl.eps.raise.repository.*;
 import jakarta.annotation.PostConstruct;
@@ -9,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Configuration
@@ -21,7 +23,7 @@ public class DBInitialization {
 
     private final RepositoryRepository repositoryRepository;
     private final DatasetRepository datasetRepository;
-    private final FAIRPrincipleRepository fairRepository;
+    private final FAIRPrincipleRepository fairPrincipleRepository;
 
     private final FAIRPrincipleVerificationInstanceRepository fairVerificationInstanceRepository;
     private final RaiseInstanceRepository raiseInstanceRepository;
@@ -38,7 +40,7 @@ public class DBInitialization {
         this.userRepository = userRepository;
         this.repositoryRepository = repositoryRepository;
         this.datasetRepository = datasetRepository;
-        this.fairRepository = fairRepository;
+        this.fairPrincipleRepository = fairRepository;
         this.raiseInstanceRepository = raiseInstanceRepository;
         this.fairVerificationInstanceRepository = fairVerificationInstanceRepository;
     }
@@ -157,26 +159,12 @@ public class DBInitialization {
             raiseInstanceRepository.save(raiseInstance2);
         }
 
-        if(fairRepository.findByName("demoFAIRPRINCIPLE").isEmpty()){
-            fairPrinciple = new FAIRPrinciple();
-            fairPrinciple.setName("demoFAIRPRINCIPLE");
-            fairPrinciple.setDescription("This is a demo dataset.");
-            fairPrinciple.setCategory(FAIRCategories.ACCESIBILITY);
-            fairPrinciple.setNamePrefix("A1.1");
-            fairPrinciple.setUrl("https://demo.principle.com");
-            fairPrinciple.setDifficulty((short)1);
-
-            fairRepository.save(fairPrinciple);
-
-            fairPrinciple2 = new FAIRPrinciple();
-            fairPrinciple2.setName("demoFAIRPRINCIPLE");
-            fairPrinciple2.setDescription("This is a demo dataset.");
-            fairPrinciple2.setCategory(FAIRCategories.ACCESIBILITY);
-            fairPrinciple2.setNamePrefix("A1.1");
-            fairPrinciple2.setUrl("https://demo.principle.com");
-            fairPrinciple2.setDifficulty((short)1);
-
-            fairRepository.save(fairPrinciple2);
+        if (fairPrincipleRepository.count() == 0){
+            FairPrinciplesList fplistClass = new FairPrinciplesList();
+            List<FAIRPrinciple> fpList = fplistClass.getFairPrincipleList();
+            for(FAIRPrinciple fp: fpList){
+                fairPrincipleRepository.save(fp);
+            };
         }
 
         if(raiseInstance != null && fairVerificationInstanceRepository.findByInstanceId(raiseInstance.getId()).isEmpty()){
