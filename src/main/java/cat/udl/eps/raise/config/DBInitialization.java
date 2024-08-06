@@ -172,6 +172,8 @@ public class DBInitialization {
             instance.setInstance(raiseInstance);
             instance.setAuthor(this.demoUser);
             instance.setFairPrinciple(fairPrinciple);
+            instance.setVerificationDate(LocalDate.now());
+
 
             fairVerificationInstanceRepository.save(instance);
 

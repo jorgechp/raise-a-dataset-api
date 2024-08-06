@@ -1,9 +1,11 @@
 package cat.udl.eps.raise.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 
@@ -27,4 +29,7 @@ public class FAIRPrincipleVerificationInstance extends UriEntity<Long>{
     @ManyToOne
     @JoinColumn(name = "raise_instance_id", nullable = false)
     private RaiseInstance instance;
+
+    @NotNull
+    private LocalDate verificationDate;
 }
