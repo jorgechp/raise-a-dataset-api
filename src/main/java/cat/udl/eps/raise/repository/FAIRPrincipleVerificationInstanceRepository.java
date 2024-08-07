@@ -1,7 +1,8 @@
 package cat.udl.eps.raise.repository;
 
 import cat.udl.eps.raise.domain.FAIRPrincipleVerificationInstance;
-import jakarta.persistence.PrePersist;
+import cat.udl.eps.raise.projection.FAIRPrincipleVerificationInstanceDTO;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
@@ -29,4 +30,7 @@ public interface FAIRPrincipleVerificationInstanceRepository extends
     boolean existsByInstanceIdAndFairPrincipleId
             (@Param("instance_id") Long instanceId, @Param("fair_principle_id") Long fairPrincipleId);
 
+
+    @Query("SELECT new cat.udl.eps.raise.projection.FAIRPrincipleVerificationInstanceDTO(p.id, p.fairPrinciple.id, p.author.id, p.instance.id, p.instance.dataset.id) FROM FAIRPrincipleVerificationInstance p")
+    FAIRPrincipleVerificationInstanceDTO[] retrieveAllVerificationInstanceDTO();
 }

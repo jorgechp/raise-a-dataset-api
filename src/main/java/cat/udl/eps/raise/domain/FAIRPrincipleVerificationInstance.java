@@ -17,16 +17,16 @@ public class FAIRPrincipleVerificationInstance extends UriEntity<Long>{
     @GeneratedValue
     private Long id;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<User> verifiers;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private FAIRPrinciple fairPrinciple;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private User author;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "raise_instance_id", nullable = false)
     private RaiseInstance instance;
 
