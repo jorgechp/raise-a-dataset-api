@@ -32,8 +32,8 @@ public interface VerificationRepository extends
 
 
     @Query("SELECT new cat.udl.eps.raise.projection.VerificationDTO(" +
-            "p.id, p.principle.id, p.author.id, p.author.username, p.instance.id, p.instance.dataset.id," +
-            " p.instance.dataset.name, p.principle.namePrefix, p.principle.name, " +
+            "p.id, p.principle.id, p.author.id, p.author.username, p.instance.id, p.instance.repository.id," +
+            " p.instance.repository.name, p.instance.dataset.id, p.instance.dataset.name, p.principle.namePrefix, p.principle.name, " +
             " p.principle.category, p.verificationDate) FROM Verification p")
     VerificationDTO[] retrieveAllVerificationInstanceDTO();
 }
