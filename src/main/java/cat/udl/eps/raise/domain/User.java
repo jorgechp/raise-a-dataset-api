@@ -48,7 +48,7 @@ public class User extends UriEntity<Long> implements UserDetails {
 	private Set<Dataset> datasets;
 
 	@ManyToMany
-	private Set<FAIRPrincipleVerificationInstance> verifications;
+	private Set<Verification> verifications;
 
 	public void encodePassword() {
 		this.password = passwordEncoder.encode(this.password);

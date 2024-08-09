@@ -25,7 +25,7 @@ public class DBInitialization {
     private final DatasetRepository datasetRepository;
     private final FAIRPrincipleRepository fairPrincipleRepository;
 
-    private final FAIRPrincipleVerificationInstanceRepository fairVerificationInstanceRepository;
+    private final VerificationRepository fairVerificationInstanceRepository;
     private final RaiseInstanceRepository raiseInstanceRepository;
 
 
@@ -36,7 +36,7 @@ public class DBInitialization {
                             DatasetRepository datasetRepository,
                             FAIRPrincipleRepository fairRepository,
                             RaiseInstanceRepository raiseInstanceRepository,
-                            FAIRPrincipleVerificationInstanceRepository fairVerificationInstanceRepository) {
+                            VerificationRepository fairVerificationInstanceRepository) {
         this.userRepository = userRepository;
         this.repositoryRepository = repositoryRepository;
         this.datasetRepository = datasetRepository;
@@ -165,13 +165,14 @@ public class DBInitialization {
             for(FAIRPrinciple fp: fpList){
                 fairPrincipleRepository.save(fp);
             };
+            fairPrinciple = fpList.get(0);
         }
 
         if(raiseInstance != null && fairVerificationInstanceRepository.findByInstanceId(raiseInstance.getId()).isEmpty()){
-            FAIRPrincipleVerificationInstance instance = new FAIRPrincipleVerificationInstance();
+            Verification instance = new Verification();
             instance.setInstance(raiseInstance);
             instance.setAuthor(this.demoUser);
-            instance.setFairPrinciple(fairPrinciple);
+            instance.setPrinciple(fairPrinciple);
             instance.setVerificationDate(LocalDate.now());
 
 

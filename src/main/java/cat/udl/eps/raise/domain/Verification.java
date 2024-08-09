@@ -12,7 +12,7 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-public class FAIRPrincipleVerificationInstance extends UriEntity<Long>{
+public class Verification extends UriEntity<Long>{
     @Id
     @GeneratedValue
     private Long id;
@@ -21,7 +21,7 @@ public class FAIRPrincipleVerificationInstance extends UriEntity<Long>{
     private Set<User> verifiers;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    private FAIRPrinciple fairPrinciple;
+    private FAIRPrinciple principle;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private User author;
