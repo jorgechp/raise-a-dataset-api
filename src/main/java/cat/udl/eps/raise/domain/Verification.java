@@ -17,9 +17,6 @@ public class Verification extends UriEntity<Long>{
     @GeneratedValue
     private Long id;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<User> verifiers;
-
     @ManyToOne(fetch = FetchType.EAGER)
     private FAIRPrinciple principle;
 
@@ -32,4 +29,9 @@ public class Verification extends UriEntity<Long>{
 
     @NotNull
     private LocalDate verificationDate;
+
+    @NotNull
+    private boolean isPositive;
+
+    private String negativeComment;
 }

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 
 @EqualsAndHashCode(callSuper = true)
@@ -26,6 +27,10 @@ public class RaiseInstance extends UriEntity<Long> {
 
     @ManyToOne
     private User user;
+
+    @OneToMany
+    private Set<Verification> verifications;
+
     private LocalDate date;
 
 }
