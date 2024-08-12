@@ -3,6 +3,7 @@ package cat.udl.eps.raise.config;
 import cat.udl.eps.raise.config.fair_principles.FairPrinciplesList;
 import cat.udl.eps.raise.domain.*;
 import cat.udl.eps.raise.repository.*;
+import cat.udl.eps.raise.repository.ComplianceRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -25,7 +26,7 @@ public class DBInitialization {
     private final DatasetRepository datasetRepository;
     private final FAIRPrincipleRepository fairPrincipleRepository;
 
-    private final VerificationRepository fairVerificationInstanceRepository;
+    private final ComplianceRepository fairVerificationInstanceRepository;
     private final RaiseInstanceRepository raiseInstanceRepository;
 
 
@@ -36,7 +37,7 @@ public class DBInitialization {
                             DatasetRepository datasetRepository,
                             FAIRPrincipleRepository fairRepository,
                             RaiseInstanceRepository raiseInstanceRepository,
-                            VerificationRepository fairVerificationInstanceRepository) {
+                            ComplianceRepository fairVerificationInstanceRepository) {
         this.userRepository = userRepository;
         this.repositoryRepository = repositoryRepository;
         this.datasetRepository = datasetRepository;
@@ -169,7 +170,7 @@ public class DBInitialization {
         }
 
         if(raiseInstance != null && fairVerificationInstanceRepository.findByInstanceId(raiseInstance.getId()).isEmpty()){
-            Verification instance = new Verification();
+            Compliance instance = new Compliance();
             instance.setInstance(raiseInstance);
             instance.setAuthor(this.demoUser);
             instance.setPrinciple(fairPrinciple);
@@ -177,6 +178,10 @@ public class DBInitialization {
 
 
             fairVerificationInstanceRepository.save(instance);
+
+            Validation validationInstance = new Validation();
+            validationInstance.setValidationDate(LocalDate.now());
+            validationInstance.setPositive(true);
 
         }
     }

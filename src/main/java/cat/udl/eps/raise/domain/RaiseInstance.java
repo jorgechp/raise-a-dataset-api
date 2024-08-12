@@ -29,7 +29,7 @@ public class RaiseInstance extends UriEntity<Long> {
     private User user;
 
     @OneToMany
-    private Set<Verification> verifications;
+    private Set<Compliance> compliances;
 
     private LocalDate date;
 

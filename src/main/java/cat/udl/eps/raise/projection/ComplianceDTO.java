@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 
 @Data
-public class VerificationDTO {
+public class ComplianceDTO {
     private Long id;
 
     private Long fairPrincipleId;
@@ -36,7 +36,7 @@ public class VerificationDTO {
     private LocalDate verificationDate;
 
 
-    public VerificationDTO(Long id, Long fairPrincipleId, Long authorId, String authorName, Long instanceId, Long repositoryId, String repositoryName, Long datasetId, String datasetName, String fairPrinciplePrefix, String fairPrincipleName, FAIRCategories fairCategory, LocalDate verificationDate) {
+    public ComplianceDTO(Long id, Long fairPrincipleId, Long authorId, String authorName, Long instanceId, Long repositoryId, String repositoryName, Long datasetId, String datasetName, String fairPrinciplePrefix, String fairPrincipleName, FAIRCategories fairCategory, LocalDate verificationDate) {
         this.id = id;
         this.fairPrincipleId = fairPrincipleId;
         this.authorId = authorId;

@@ -6,13 +6,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.time.LocalDate;
-import java.util.Set;
 
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-public class Verification extends UriEntity<Long>{
+public class Compliance extends UriEntity<Long>{
     @Id
     @GeneratedValue
     private Long id;
@@ -29,9 +28,4 @@ public class Verification extends UriEntity<Long>{
 
     @NotNull
     private LocalDate verificationDate;
-
-    @NotNull
-    private boolean isPositive;
-
-    private String negativeComment;
 }

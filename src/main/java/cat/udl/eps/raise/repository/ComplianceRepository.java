@@ -1,7 +1,7 @@
 package cat.udl.eps.raise.repository;
 
-import cat.udl.eps.raise.domain.Verification;
-import cat.udl.eps.raise.projection.VerificationDTO;
+import cat.udl.eps.raise.domain.Compliance;
+import cat.udl.eps.raise.projection.ComplianceDTO;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -11,9 +11,9 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import java.util.Optional;
 
 @RepositoryRestResource
-public interface VerificationRepository extends
-        CrudRepository<Verification, Long>,
-        PagingAndSortingRepository<Verification, Long> {
+public interface ComplianceRepository extends
+        CrudRepository<Compliance, Long>,
+        PagingAndSortingRepository<Compliance, Long> {
 
   /* Interface provides automatically, as defined in
    * https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/CrudRepository.html
@@ -25,15 +25,15 @@ public interface VerificationRepository extends
    * https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.query-creation
    */
 
-    Optional<Verification> findByInstanceId(@Param("id") Long id);
+    Optional<Compliance> findByInstanceId(@Param("id") Long id);
 
     boolean existsByInstanceIdAndPrincipleId
             (@Param("instance_id") Long instanceId, @Param("fair_principle_id") Long fairPrincipleId);
 
 
-    @Query("SELECT new cat.udl.eps.raise.projection.VerificationDTO(" +
+    @Query("SELECT new cat.udl.eps.raise.projection.ComplianceDTO(" +
             "p.id, p.principle.id, p.author.id, p.author.username, p.instance.id, p.instance.repository.id," +
             " p.instance.repository.name, p.instance.dataset.id, p.instance.dataset.name, p.principle.namePrefix, p.principle.name, " +
-            " p.principle.category, p.verificationDate) FROM Verification p")
-    VerificationDTO[] retrieveAllVerificationInstanceDTO();
+            " p.principle.category, p.verificationDate) FROM Compliance p")
+    ComplianceDTO[] retrieveAllComplianceDTO();
 }

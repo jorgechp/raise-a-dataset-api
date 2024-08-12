@@ -1,8 +1,8 @@
 package cat.udl.eps.raise.handler;
 
 
-import cat.udl.eps.raise.domain.Verification;
-import cat.udl.eps.raise.repository.VerificationRepository;
+import cat.udl.eps.raise.domain.Compliance;
+import cat.udl.eps.raise.repository.ComplianceRepository;
 import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
 import org.springframework.stereotype.Component;
 
@@ -11,18 +11,18 @@ import org.springframework.stereotype.Component;
 public class FAIRPrincipleVerificationInstanceEventHandler {
 
 
-    final VerificationRepository verificationRepository;
+    final ComplianceRepository complianceRepository;
 
     public FAIRPrincipleVerificationInstanceEventHandler(
-            VerificationRepository verificationRepository) {
-        this.verificationRepository = verificationRepository;
+            ComplianceRepository complianceRepository) {
+        this.complianceRepository = complianceRepository;
     }
 
     @HandleBeforeCreate
-    public void handleAuthorBeforeCreate(Verification verification){
-        boolean response = this.verificationRepository.existsByInstanceIdAndPrincipleId(
-                verification.getInstance().getId()
-                , verification.getPrinciple().getId()
+    public void handleAuthorBeforeCreate(Compliance compliance){
+        boolean response = this.complianceRepository.existsByInstanceIdAndPrincipleId(
+                compliance.getInstance().getId()
+                , compliance.getPrinciple().getId()
         );
         if(response){
             throw new RuntimeException("Another similar instance exists");

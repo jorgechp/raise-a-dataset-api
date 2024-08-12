@@ -48,7 +48,7 @@ public class User extends UriEntity<Long> implements UserDetails {
 	private Set<Dataset> datasets;
 
 	@ManyToMany
-	private Set<Verification> verifications;
+	private Set<Compliance> compliances;
 
 	public void encodePassword() {
 		this.password = passwordEncoder.encode(this.password);
