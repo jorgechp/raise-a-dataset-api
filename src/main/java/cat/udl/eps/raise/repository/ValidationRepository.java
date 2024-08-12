@@ -26,4 +26,6 @@ public interface ValidationRepository extends
     Optional<Validation> findById(@Param("id") Long id);
 
     Optional<Validation[]> findAllByComplianceId(@Param("id") Long id);
+
+    boolean existsByComplianceIdAndValidatorId(@Param("id") Long complianceId, @Param("id") Long validatorId);
 }

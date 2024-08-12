@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 
@@ -16,10 +17,11 @@ public class Validation extends UriEntity<Long>{
     @GeneratedValue
     private Long id;
 
+    @NotNull
     @ManyToOne()
     private Compliance compliance;
 
-    @NotNull
+    @CreationTimestamp
     private LocalDate validationDate;
 
     @NotNull

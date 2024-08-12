@@ -33,10 +33,10 @@ public class ComplianceDTO {
 
     private FAIRCategories fairCategory;
 
-    private LocalDate verificationDate;
+    private LocalDate complianceDate;
 
 
-    public ComplianceDTO(Long id, Long fairPrincipleId, Long authorId, String authorName, Long instanceId, Long repositoryId, String repositoryName, Long datasetId, String datasetName, String fairPrinciplePrefix, String fairPrincipleName, FAIRCategories fairCategory, LocalDate verificationDate) {
+    public ComplianceDTO(Long id, Long fairPrincipleId, Long authorId, String authorName, Long instanceId, Long repositoryId, String repositoryName, Long datasetId, String datasetName, String fairPrinciplePrefix, String fairPrincipleName, FAIRCategories fairCategory, LocalDate complianceDate) {
         this.id = id;
         this.fairPrincipleId = fairPrincipleId;
         this.authorId = authorId;
@@ -49,7 +49,7 @@ public class ComplianceDTO {
         this.fairPrinciplePrefix = fairPrinciplePrefix;
         this.fairPrincipleName = fairPrincipleName;
         this.fairCategory = fairCategory;
-        this.verificationDate = verificationDate;
+        this.complianceDate = complianceDate;
     }
 
 

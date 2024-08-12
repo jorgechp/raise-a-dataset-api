@@ -8,12 +8,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 @org.springframework.data.rest.core.annotation.RepositoryEventHandler
-public class FAIRPrincipleVerificationInstanceEventHandler {
+public class ComplianceEventHandler {
 
 
     final ComplianceRepository complianceRepository;
 
-    public FAIRPrincipleVerificationInstanceEventHandler(
+    public ComplianceEventHandler(
             ComplianceRepository complianceRepository) {
         this.complianceRepository = complianceRepository;
     }
