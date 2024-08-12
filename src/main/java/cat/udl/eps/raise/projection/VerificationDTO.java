@@ -17,7 +17,7 @@ public class VerificationDTO {
 
     private String authorName;
 
-    private Long instanceID;
+    private Long instanceId;
 
     private Long repositoryId;
 
@@ -36,12 +36,12 @@ public class VerificationDTO {
     private LocalDate verificationDate;
 
 
-    public VerificationDTO(Long id, Long fairPrincipleId, Long authorId, String authorName, Long instanceID, Long repositoryId, String repositoryName, Long datasetId, String datasetName, String fairPrinciplePrefix, String fairPrincipleName, FAIRCategories fairCategory, LocalDate verificationDate) {
+    public VerificationDTO(Long id, Long fairPrincipleId, Long authorId, String authorName, Long instanceId, Long repositoryId, String repositoryName, Long datasetId, String datasetName, String fairPrinciplePrefix, String fairPrincipleName, FAIRCategories fairCategory, LocalDate verificationDate) {
         this.id = id;
         this.fairPrincipleId = fairPrincipleId;
         this.authorId = authorId;
         this.authorName = authorName;
-        this.instanceID = instanceID;
+        this.instanceId = instanceId;
         this.repositoryId = repositoryId;
         this.repositoryName = repositoryName;
         this.datasetId = datasetId;
