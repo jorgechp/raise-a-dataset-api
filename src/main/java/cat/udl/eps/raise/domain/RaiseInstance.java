@@ -1,6 +1,7 @@
 package cat.udl.eps.raise.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -32,5 +33,8 @@ public class RaiseInstance extends UriEntity<Long> {
     private Set<Compliance> compliances;
 
     private LocalDate date;
+
+    @NotNull
+    private boolean isInRisk;
 
 }
