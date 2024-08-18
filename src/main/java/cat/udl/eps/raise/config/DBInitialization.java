@@ -3,7 +3,6 @@ package cat.udl.eps.raise.config;
 import cat.udl.eps.raise.config.fair_principles.FairPrinciplesList;
 import cat.udl.eps.raise.domain.*;
 import cat.udl.eps.raise.repository.*;
-import cat.udl.eps.raise.repository.ComplianceRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -29,6 +28,8 @@ public class DBInitialization {
     private final ComplianceRepository fairVerificationInstanceRepository;
     private final RaiseInstanceRepository raiseInstanceRepository;
 
+    private final RiskDatasetRepository riskDatasetRepository;
+
 
     private User demoUser;
 
@@ -37,13 +38,15 @@ public class DBInitialization {
                             DatasetRepository datasetRepository,
                             FAIRPrincipleRepository fairRepository,
                             RaiseInstanceRepository raiseInstanceRepository,
-                            ComplianceRepository fairVerificationInstanceRepository) {
+                            ComplianceRepository fairVerificationInstanceRepository,
+                            RiskDatasetRepository riskDatasetRepository) {
         this.userRepository = userRepository;
         this.repositoryRepository = repositoryRepository;
         this.datasetRepository = datasetRepository;
         this.fairPrincipleRepository = fairRepository;
         this.raiseInstanceRepository = raiseInstanceRepository;
         this.fairVerificationInstanceRepository = fairVerificationInstanceRepository;
+        this.riskDatasetRepository = riskDatasetRepository;
     }
 
     @PostConstruct
@@ -139,24 +142,37 @@ public class DBInitialization {
             createdDataset = datasetRepository.findByName("demoDataset").get();
         }
 
-        if(raiseInstanceRepository.findByDoi("10.1080/02626667.2018.1560449").isEmpty()){
+        if(riskDatasetRepository.findByName("demoRiskDataset").isEmpty()){
+            RiskDataset rd = new RiskDataset();
+            rd.setName("DataInRisk");
+            rd.setCategory(RISKCategories.CLOUD_STORAGE);
+            rd.setDescription("This dataset is in risk of extinction");
+            rd.setCreatedBy("Arturo Pérez");
+            rd.setRegistrationDate(LocalDate.now());
+            rd.setCreationDate(LocalDate.now().minusDays(55));
+            rd.setRegisteredBy("Aurora Macarena Morales");
+            rd.setAddress("https://unstable.limited.storage.cloud/id/34fajsj3f3YhFs");
+            riskDatasetRepository.save(rd);
+        }
+
+        if(raiseInstanceRepository.findByUniqueIdentifier("10.1080/02626667.2018.1560449").isEmpty()){
             raiseInstance = new RaiseInstance();
             raiseInstance.setUser(this.demoUser);
             raiseInstance.setDate(LocalDate.now());
             raiseInstance.setDataset(createdDataset);
             raiseInstance.setRepository(createdRepository1);
-            raiseInstance.setDoi("10.1080/02626667.2018.1560449");
+            raiseInstance.setUniqueIdentifier("10.1080/02626667.2018.1560449");
             raiseInstanceRepository.save(raiseInstance);
 
         }
 
-        if(raiseInstanceRepository.findByDoi("10.1080/02626667.2018.1560448").isEmpty()){
+        if(raiseInstanceRepository.findByUniqueIdentifier("10.1080/02626667.2018.1560448").isEmpty()){
             raiseInstance2 = new RaiseInstance();
             raiseInstance2.setUser(this.demoUser);
             raiseInstance2.setDate(LocalDate.now());
             raiseInstance2.setDataset(createdDataset);
             raiseInstance2.setRepository(createdRepository2);
-            raiseInstance2.setDoi("10.1080/02626667.2018.1560448");
+            raiseInstance2.setUniqueIdentifier("10.1080/02626667.2018.1560448");
             raiseInstanceRepository.save(raiseInstance2);
         }
 
@@ -184,5 +200,7 @@ public class DBInitialization {
             validationInstance.setPositive(true);
 
         }
+
+
     }
 }

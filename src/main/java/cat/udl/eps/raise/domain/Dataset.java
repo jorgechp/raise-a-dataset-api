@@ -1,36 +1,18 @@
 package cat.udl.eps.raise.domain;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToMany;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.time.LocalDate;
 import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
+@DiscriminatorValue("S")
 @Entity
 @Data
-public class Dataset extends UriEntity<Long> {
-
-    @Id
-    @GeneratedValue
-    private Long id;
-
-    @NotBlank
-    @Column(unique=true)
-    private String name;
-    @NotBlank
-    private String createdBy;
-    @NotBlank
-    private String registeredBy;
-
-    private String description;
-    @NotNull
-    private LocalDate creationDate;
-    @NotNull
-    private LocalDate registrationDate;
+public class Dataset extends AbstractDataset {
 
     @ManyToMany
     private Set<User> maintainedBy;
@@ -38,6 +20,4 @@ public class Dataset extends UriEntity<Long> {
     @ManyToMany
     private Set<Repository> repositories;
 
-    @Override
-    public Long getId() { return id; }
 }
