@@ -42,6 +42,7 @@ public class WebSecurityConfig {
     protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((auth) -> auth
                 .requestMatchers(HttpMethod.GET, "/identity").authenticated()
+                .requestMatchers(HttpMethod.GET, "/password").authenticated()
                 .requestMatchers(HttpMethod.POST, "/users").anonymous()
                 .requestMatchers(HttpMethod.POST, "/users/*").denyAll()
                 .requestMatchers(HttpMethod.POST, "/repositories/*").hasRole("USER")
@@ -77,4 +78,5 @@ public class WebSecurityConfig {
     public SecurityEvaluationContextExtension securityEvaluationContextExtension() {
         return new SecurityEvaluationContextExtension();
     }
+
 }

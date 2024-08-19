@@ -19,4 +19,5 @@ public class IdentityController {
 
     return resourceAssembler.toFullResource(user);
   }
+
 }
