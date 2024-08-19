@@ -3,6 +3,7 @@ package cat.udl.eps.raise.domain;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -19,5 +20,8 @@ public class Dataset extends AbstractDataset {
 
     @ManyToMany
     private Set<Repository> repositories;
+
+    @ManyToOne
+    private User rescuedBy;
 
 }

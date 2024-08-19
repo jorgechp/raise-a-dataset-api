@@ -20,7 +20,6 @@ public abstract class AbstractDataset extends UriEntity<Long> {
     private Long id;
 
     @NotBlank
-    @Column(unique=true)
     private String name;
     @NotBlank
     private String createdBy;
@@ -35,7 +34,8 @@ public abstract class AbstractDataset extends UriEntity<Long> {
     @NotNull
     private LocalDate registrationDate;
 
-
+    @NotNull
+    private boolean isRescued;
 
     @Override
     public Long getId() { return id; }

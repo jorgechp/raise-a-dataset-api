@@ -124,6 +124,7 @@ public class DBInitialization {
             Set<User> authors = new HashSet<>();
             authors.add(this.demoUser);
             dataset.setMaintainedBy(authors);
+            dataset.setRescued(false);
             datasetRepository.save(dataset);
             createdDataset = dataset;
 
@@ -136,6 +137,7 @@ public class DBInitialization {
             dataset2.setCreationDate(LocalDate.now().minusDays(50));
             authors.add(this.demoUser);
             dataset2.setMaintainedBy(authors);
+            dataset.setRescued(false);
             datasetRepository.save(dataset2);
             createdDataset2 = dataset2;
         }else{
@@ -152,6 +154,7 @@ public class DBInitialization {
             rd.setCreationDate(LocalDate.now().minusDays(55));
             rd.setRegisteredBy("Aurora Macarena Morales");
             rd.setAddress("https://unstable.limited.storage.cloud/id/34fajsj3f3YhFs");
+            rd.setRescued(false);
             riskDatasetRepository.save(rd);
         }
 
