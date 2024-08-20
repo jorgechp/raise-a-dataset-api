@@ -42,9 +42,8 @@ public class WebSecurityConfig {
     protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((auth) -> auth
                 .requestMatchers(HttpMethod.GET, "/identity").authenticated()
-                .requestMatchers(HttpMethod.GET, "/password").authenticated()
-                .requestMatchers(HttpMethod.POST, "/users").anonymous()
-                .requestMatchers(HttpMethod.POST, "/users/*").denyAll()
+                .requestMatchers(HttpMethod.POST, "/password").authenticated()
+                .requestMatchers(HttpMethod.PATCH, "/users/*").hasRole("USER")
                 .requestMatchers(HttpMethod.POST, "/repositories/*").hasRole("USER")
                 .requestMatchers(HttpMethod.POST, "/fAIRPrinciples/*").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/fAIRPrinciples/*").hasRole("ADMIN")
@@ -58,7 +57,7 @@ public class WebSecurityConfig {
                 .anyRequest().permitAll())
             .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .cors((cors) -> cors.configurationSource(corsConfigurationSource()))
-            .httpBasic(withDefaults()).csrf().disable();;
+            .httpBasic(withDefaults()).csrf().disable();
         return http.build();
     }
 
