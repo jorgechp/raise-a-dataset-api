@@ -7,8 +7,11 @@ import org.springframework.data.rest.webmvc.PersistentEntityResource;
 import org.springframework.data.rest.webmvc.PersistentEntityResourceAssembler;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Map;
 
 @BasePathAwareController
 public class UserController {
@@ -22,15 +25,17 @@ public class UserController {
 
   @PostMapping("/password")
   public @ResponseBody PersistentEntityResource changeUserPassword(PersistentEntityResourceAssembler resourceAssembler,
-                                            @RequestParam("newPassword") String newPassword,
-                                            @RequestParam("currentPassword") String currentPassword) {
+                                                                   @RequestBody Map<String, String> passwordData) {
+    String newPassword = passwordData.get("password");
+    String currentPassword = passwordData.get("currentpassword");
+
     User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
     if (!User.passwordEncoder.matches(currentPassword, user.getPassword())) {
       throw new IllegalArgumentException("Current password is incorrect");
     }
 
-    user.setPassword(newPassword);
+    user.setPassword(User.passwordEncoder.encode(newPassword));
     this.userRepository.save(user);
 
     return resourceAssembler.toFullResource(user);
