@@ -1,0 +1,10 @@
+package missions
+
+import cat.udl.eps.raise.projection.UserStateDTO
+
+rule "First indicator"
+    when
+        userObject: UserStateDTO(numberOfIndicators>0)
+    then
+
+    end

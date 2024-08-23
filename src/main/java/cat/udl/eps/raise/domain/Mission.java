@@ -25,6 +25,9 @@ public class Mission extends UriEntity<Long>{
     @NotNull
     private int points;
 
+    @NotNull
+    private String ruleName;
+
 
 
 }
