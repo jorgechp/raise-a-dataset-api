@@ -4,7 +4,7 @@ import cat.udl.eps.raise.projection.UserStateDTO
 
 rule "First indicator"
     when
-        userObject: UserStateDTO(numberOfIndicators>0)
+        userObject: UserStateDTO( numberOfIndicators > 0)
     then
-
+        userObject.setNumberOfIndicators(1);
     end

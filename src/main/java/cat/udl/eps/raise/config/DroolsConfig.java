@@ -1,7 +1,11 @@
 package cat.udl.eps.raise.config;
 
 import org.kie.api.KieServices;
+import org.kie.api.builder.KieBuilder;
+import org.kie.api.builder.KieFileSystem;
+import org.kie.api.builder.KieModule;
 import org.kie.api.runtime.KieContainer;
+import org.kie.internal.io.ResourceFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,6 +16,11 @@ public class DroolsConfig {
 
     @Bean
     public KieContainer getKieContainer() {
-        return kieServices.getKieClasspathContainer();
+        KieFileSystem kieFileSystem = kieServices.newKieFileSystem();
+        kieFileSystem.write(ResourceFactory.newClassPathResource("missions/example.drl"));
+        KieBuilder kb = kieServices.newKieBuilder(kieFileSystem);
+        kb.buildAll();
+        KieModule kieModule = kb.getKieModule();
+        return kieServices.newKieContainer(kieModule.getReleaseId());
     }
 }

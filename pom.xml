@@ -17,7 +17,7 @@
 		<java.version>17</java.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<drools.version>9.44.0.Final</drools.version>
+		<drools.version>7.74.1.Final</drools.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -149,10 +149,12 @@
 		</dependency>
 		<dependency>
 			<groupId>org.drools</groupId>
-			<artifactId>drools-xml-support</artifactId>
-			<version>${drools-version}</version>
+			<artifactId>drools-mvel</artifactId>
+			<version>7.74.1.Final</version>
 		</dependency>
-    </dependencies>
+
+
+	</dependencies>
 
 	<build>
 		<plugins>
@@ -175,6 +177,14 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>11</source>
+					<target>11</target>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
