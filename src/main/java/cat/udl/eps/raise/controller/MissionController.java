@@ -40,7 +40,7 @@ public class MissionController {
   }
 
   @PostMapping("/missions/check")
-  public @ResponseBody ResponseEntity<Boolean> checkMissions(@RequestBody Map<String, String> paramData) {
+  public @ResponseBody ResponseEntity<Boolean> checkMission(@RequestBody Map<String, String> paramData) {
     String username = paramData.get("username");
     Long missionId = Long.valueOf(paramData.get("missionId"));
     Optional<Mission> missionRetrieved = missionRepository.findMissionById(missionId);
