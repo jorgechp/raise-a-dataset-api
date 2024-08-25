@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.net.URL;
 
 @Configuration
 
@@ -20,20 +21,32 @@ public class DroolsConfig {
     @Bean
     public KieContainer getKieContainer() {
         KieFileSystem kieFileSystem = kieServices.newKieFileSystem();
-        File missionsDirectory = new File("missions");
-        if (missionsDirectory.isDirectory()) {
-            File[] drlFiles = missionsDirectory.listFiles(new FilenameFilter() {
-                @Override
-                public boolean accept(File dir, String name) {
-                    return name.endsWith(".drl");
-                }
-            });
 
-            assert drlFiles != null;
-            for (File drlFile : drlFiles) {
-                kieFileSystem.write(ResourceFactory.newClassPathResource("missions/" + drlFile.getName()));
+        ClassLoader classLoader = getClass().getClassLoader();
+        URL missionsUrl = classLoader.getResource("missions");
+
+        if (missionsUrl != null) {
+            File missionsDirectory = new File(missionsUrl.getFile());
+
+            if (missionsDirectory.isDirectory()) {
+                File[] drlFiles = missionsDirectory.listFiles(new FilenameFilter() {
+                    @Override
+                    public boolean accept(File dir, String name) {
+                        return name.endsWith(".drl");
+                    }
+                });
+
+                assert drlFiles != null;
+                for (File drlFile : drlFiles) {
+                    kieFileSystem.write(ResourceFactory.newClassPathResource("missions/" + drlFile.getName()));
+                }
+            } else {
+                System.out.println("missions directory not found or not a directory");
             }
+        } else {
+            System.out.println("missions resource not found");
         }
+
         KieBuilder kb = kieServices.newKieBuilder(kieFileSystem);
         kb.buildAll();
         KieModule kieModule = kb.getKieModule();

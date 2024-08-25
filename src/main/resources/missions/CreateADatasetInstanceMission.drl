@@ -6,9 +6,8 @@ import cat.udl.eps.raise.repository.MissionRepository
 
 rule "CreateADatasetInstanceMission"
     when
-        userObject: UserStateDTO(numberOfDatasetInstances > 0 )
         mission: Mission()
-        (UserStateDTO(user.getMissionsAccepted() contains mission  ))
+        userObject: UserStateDTO(numberOfDatasetInstances > 0, user.getMissionsAccepted() contains mission )
     then
         userObject.getUser().getMissionsAcomplished().add(mission);
         userObject.getUser().getMissionsAccepted().remove(mission);

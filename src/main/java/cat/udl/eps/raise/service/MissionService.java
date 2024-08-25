@@ -21,8 +21,8 @@ public class MissionService {
         KieSession kieSession = kieContainer.newKieSession();
         MissionAgendaEventListener agendaEventListener = new MissionAgendaEventListener();
         kieSession.addEventListener(agendaEventListener);
-        kieSession.insert(userDto);
         kieSession.insert(mission);
+        kieSession.insert(userDto);
         kieSession.fireAllRules( new RuleNameEqualsAgendaFilter(mission.getRuleName()));
         kieSession.dispose();
         return agendaEventListener.isRuleAccepted();
