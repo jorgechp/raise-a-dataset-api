@@ -11,6 +11,8 @@ import org.springframework.data.rest.webmvc.BasePathAwareController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 @BasePathAwareController
@@ -33,6 +35,25 @@ public class MissionController {
     this.missionService = missionService;
     this.statsService = statsService;
     this.missionRepository = missionRepository;
+  }
+
+  @GetMapping("/missions/check")
+  public @ResponseBody ResponseEntity<List<String>> checkAllMission( @RequestParam String username) {
+    List<String> completedMissions = new LinkedList<>();
+
+      Optional<UserStateDTO> userDto = this.statsService.getUserStats(username);
+      if(userDto.isPresent()){
+        for(Mission m: userDto.get().getUser().getMissionsAccepted()){
+          boolean result = missionService.checkMission(userDto.get(), m);
+          userRepository.save(userDto.get().getUser());
+          if(result){
+            completedMissions.add(m.getRuleName());
+          }
+        }
+        return ResponseEntity.ok(completedMissions);
+      }
+
+    return ResponseEntity.notFound().build();
   }
 
   @GetMapping("/missions/{missionId}/check")
