@@ -9,12 +9,8 @@ import cat.udl.eps.raise.service.StatsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.BasePathAwareController;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
 import java.util.Optional;
 
 @BasePathAwareController
@@ -39,10 +35,9 @@ public class MissionController {
     this.missionRepository = missionRepository;
   }
 
-  @PostMapping("/missions/check")
-  public @ResponseBody ResponseEntity<Boolean> checkMission(@RequestBody Map<String, String> paramData) {
-    String username = paramData.get("username");
-    Long missionId = Long.valueOf(paramData.get("missionId"));
+  @GetMapping("/missions/{missionId}/check")
+  public @ResponseBody ResponseEntity<Boolean> checkMission(@PathVariable Long missionId,
+                                                            @RequestParam String username) {
     Optional<Mission> missionRetrieved = missionRepository.findMissionById(missionId);
 
     if(userRepository.findByUsername(username).isPresent()
