@@ -17,7 +17,7 @@ public class DroolsConfig {
     @Bean
     public KieContainer getKieContainer() {
         KieFileSystem kieFileSystem = kieServices.newKieFileSystem();
-        kieFileSystem.write(ResourceFactory.newClassPathResource("missions/example.drl"));
+        kieFileSystem.write(ResourceFactory.newClassPathResource("missions/CreateADatasetInstanceMission.drl"));
         KieBuilder kb = kieServices.newKieBuilder(kieFileSystem);
         kb.buildAll();
         KieModule kieModule = kb.getKieModule();

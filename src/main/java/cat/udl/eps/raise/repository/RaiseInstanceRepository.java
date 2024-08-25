@@ -31,4 +31,6 @@ public interface RaiseInstanceRepository extends CrudRepository<RaiseInstance, L
     Optional<List<RaiseInstance>> findAllByRepositoryId(@Param("id") Long id);
 
     Optional<List<RaiseInstance>> findAllByUserUsername(@Param("username") String username);
+
+    int countAllByUserUsername(@Param("username") String username);
 }

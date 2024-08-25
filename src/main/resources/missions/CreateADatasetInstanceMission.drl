@@ -1,0 +1,15 @@
+package missions
+
+import cat.udl.eps.raise.projection.UserStateDTO
+import cat.udl.eps.raise.domain.Mission
+import cat.udl.eps.raise.repository.MissionRepository
+
+rule "CreateADatasetInstanceMission"
+    when
+        userObject: UserStateDTO(numberOfDatasetInstances > 0 )
+        mission: Mission()
+        (UserStateDTO(user.getMissionsAccepted() contains mission  ))
+    then
+        userObject.getUser().getMissionsAcomplished().add(mission);
+        userObject.getUser().getMissionsAccepted().remove(mission);
+    end

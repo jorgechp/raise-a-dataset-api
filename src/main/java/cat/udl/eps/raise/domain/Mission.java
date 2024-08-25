@@ -6,9 +6,9 @@ import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = true)
+import java.util.Objects;
+
 @Entity
 @Data
 public class Mission extends UriEntity<Long>{
@@ -28,6 +28,15 @@ public class Mission extends UriEntity<Long>{
     @NotNull
     private String ruleName;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Mission mission)) return false;
+        return Objects.equals(id, mission.id);
+    }
 
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -24,6 +25,13 @@ import java.util.Set;
 public class User extends UriEntity<Long> implements UserDetails {
 
 	public static PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+	public User() {
+		this.compliances = new HashSet<>();
+		this.datasets = new HashSet<>();
+		this.missionsAccepted = new HashSet<>();
+		this.missionsAcomplished = new HashSet<>();
+	}
 
 	@Id
 	@GeneratedValue
@@ -49,6 +57,12 @@ public class User extends UriEntity<Long> implements UserDetails {
 
 	@ManyToMany
 	private Set<Compliance> compliances;
+
+	@ManyToMany
+	private Set<Mission> missionsAccepted;
+
+	@ManyToMany
+	private Set<Mission> missionsAcomplished;
 
 	public void encodePassword() {
 		this.password = passwordEncoder.encode(this.password);
@@ -88,6 +102,7 @@ public class User extends UriEntity<Long> implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
+
 
 
 

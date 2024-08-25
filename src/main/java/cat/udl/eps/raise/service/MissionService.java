@@ -1,6 +1,9 @@
 package cat.udl.eps.raise.service;
 
+import cat.udl.eps.raise.agenda.MissionAgendaEventListener;
+import cat.udl.eps.raise.domain.Mission;
 import cat.udl.eps.raise.projection.UserStateDTO;
+import org.drools.core.base.RuleNameEqualsAgendaFilter;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +17,14 @@ public class MissionService {
         this.kieContainer = kieContainer;
     }
 
-    public boolean getProductDiscount(UserStateDTO userDto) {
-        //get the stateful session
-        KieSession kieSession = kieContainer.newKieSession("missionsSession");
+    public boolean checkMission(UserStateDTO userDto, Mission mission) {
+        KieSession kieSession = kieContainer.newKieSession();
+        MissionAgendaEventListener agendaEventListener = new MissionAgendaEventListener();
+        kieSession.addEventListener(agendaEventListener);
         kieSession.insert(userDto);
-        kieSession.fireAllRules();
+        kieSession.insert(mission);
+        kieSession.fireAllRules( new RuleNameEqualsAgendaFilter(mission.getRuleName()));
         kieSession.dispose();
-        return true;
+        return agendaEventListener.isRuleAccepted();
     }
 }

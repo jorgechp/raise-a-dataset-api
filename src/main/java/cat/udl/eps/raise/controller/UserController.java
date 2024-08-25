@@ -8,7 +8,6 @@ import org.springframework.data.rest.webmvc.PersistentEntityResourceAssembler;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Map;
@@ -17,11 +16,13 @@ import java.util.Map;
 public class UserController {
 
 
-  final UserRepository userRepository;
+  UserRepository userRepository = null;
 
   public UserController( UserRepository userRepository) {
     this.userRepository = userRepository;
   }
+
+
 
   @PostMapping("/password")
   public @ResponseBody PersistentEntityResource changeUserPassword(PersistentEntityResourceAssembler resourceAssembler,

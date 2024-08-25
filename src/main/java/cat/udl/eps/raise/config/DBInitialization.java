@@ -27,8 +27,9 @@ public class DBInitialization {
 
     private final ComplianceRepository fairVerificationInstanceRepository;
     private final RaiseInstanceRepository raiseInstanceRepository;
-
     private final RiskDatasetRepository riskDatasetRepository;
+
+    private final MissionRepository missionRepository;
 
 
     private User demoUser;
@@ -39,6 +40,7 @@ public class DBInitialization {
                             FAIRPrincipleRepository fairRepository,
                             RaiseInstanceRepository raiseInstanceRepository,
                             ComplianceRepository fairVerificationInstanceRepository,
+                            MissionRepository missionRepository,
                             RiskDatasetRepository riskDatasetRepository) {
         this.userRepository = userRepository;
         this.repositoryRepository = repositoryRepository;
@@ -47,6 +49,7 @@ public class DBInitialization {
         this.raiseInstanceRepository = raiseInstanceRepository;
         this.fairVerificationInstanceRepository = fairVerificationInstanceRepository;
         this.riskDatasetRepository = riskDatasetRepository;
+        this.missionRepository = missionRepository;
     }
 
     @PostConstruct
@@ -201,9 +204,19 @@ public class DBInitialization {
             Validation validationInstance = new Validation();
             validationInstance.setValidationDate(LocalDate.now());
             validationInstance.setPositive(true);
-
         }
 
+        if(missionRepository.findMissionByRuleName("CreateADatasetInstanceMission").isEmpty()){
+            Mission m = new Mission();
+            m.setRuleName("CreateADatasetInstanceMission");
+            m.setDescription("Create your first dataset intance");
+            m.setPoints(10);
+            m.setName("Create a dataset Instance");
+            missionRepository.save(m);
+
+            demoUser.getMissionsAccepted().add(m);
+            userRepository.save(demoUser);
+        }
 
     }
 }

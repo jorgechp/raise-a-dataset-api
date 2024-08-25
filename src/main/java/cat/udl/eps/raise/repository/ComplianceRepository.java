@@ -46,4 +46,6 @@ public interface ComplianceRepository extends
             "    p.instance.repository.name, p.instance.dataset.id, p.instance.dataset.name, p.principle.namePrefix, p.principle.name," +
             "    p.principle.category, p.verificationDate) FROM Compliance p LEFT JOIN Validation v ON p.id = v.compliance.id WHERE v.id is NULL")
     ComplianceDTO[] retrieveComplianceDTONotEvaluated();
+
+    int countAllByAuthorUsername(@Param("text") String text);
 }

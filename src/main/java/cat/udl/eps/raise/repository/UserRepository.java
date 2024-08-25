@@ -25,4 +25,5 @@ public interface UserRepository extends CrudRepository<User, Long>, PagingAndSor
   Optional<User> findByUsername(@Param("text") String text);
 
   boolean existsByUsername(@Param("text") String text);
+
 }

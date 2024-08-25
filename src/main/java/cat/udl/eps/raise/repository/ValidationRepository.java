@@ -28,4 +28,6 @@ public interface ValidationRepository extends
     Optional<Validation[]> findAllByComplianceId(@Param("id") Long id);
 
     boolean existsByComplianceIdAndValidatorId(@Param("id") Long complianceId, @Param("id") Long validatorId);
+
+    int countAllByValidatorUsername(@Param("text") String text);
 }
