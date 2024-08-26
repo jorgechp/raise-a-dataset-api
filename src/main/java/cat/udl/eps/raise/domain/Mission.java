@@ -1,8 +1,6 @@
 package cat.udl.eps.raise.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -26,6 +24,10 @@ public class Mission extends UriEntity<Long>{
     private int points;
 
     @NotNull
+    private int level;
+
+    @NotNull
+    @Column(unique=true)
     private String ruleName;
 
     @Override

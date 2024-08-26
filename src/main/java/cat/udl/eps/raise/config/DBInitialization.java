@@ -211,11 +211,22 @@ public class DBInitialization {
             m.setRuleName("CreateADatasetInstanceMission");
             m.setDescription("Create your first dataset intance");
             m.setPoints(10);
+            m.setLevel(0);
             m.setName("Create a dataset Instance");
             missionRepository.save(m);
 
             demoUser.getMissionsAccepted().add(m);
             userRepository.save(demoUser);
+        }
+
+        if(missionRepository.findMissionByRuleName("ValidateAnIndicator").isEmpty()){
+            Mission m = new Mission();
+            m.setRuleName("ValidateAnInstanceMission");
+            m.setDescription("Validate one indicator");
+            m.setPoints(10);
+            m.setLevel(0);
+            m.setName("Validate an indicator");
+            missionRepository.save(m);
         }
 
     }

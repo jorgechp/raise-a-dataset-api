@@ -1,6 +1,7 @@
 package cat.udl.eps.raise.repository;
 
 import cat.udl.eps.raise.domain.Mission;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
@@ -25,5 +26,20 @@ public interface MissionRepository extends CrudRepository<Mission, Long>, Paging
     Optional<Mission> findMissionByName(@Param("name") String name);
     Optional<Mission> findMissionByRuleName(@Param("ruleName") String ruleName);
     Optional<Mission> findMissionById(@Param("ruleId") Long ruleId);
+
+    @Query("SELECT m FROM Mission m INNER JOIN User u ON (m MEMBER OF u.missionsAccepted )" +
+            "AND u.username = :username")
+    Optional<Mission[]> getMissionsForUser(@Param("username") String username);
+
+    @Query("SELECT m FROM Mission m LEFT JOIN User u ON (m MEMBER OF u.missionsAccepted " +
+            "OR m MEMBER OF u.missionsAcomplished) AND u.username = :username WHERE u.id IS NULL ORDER BY m.level ASC LIMIT 3")
+    Optional<Mission[]> getSuggestedMissionsForUser(@Param("username") String username);
+
+    @Query("SELECT m FROM Mission m LEFT JOIN User u ON (m MEMBER OF u.missionsAccepted " +
+            "OR m MEMBER OF u.missionsAcomplished) AND u.username = :username WHERE u.id IS NULL")
+    Optional<Mission[]> getOtherMissionsForUser(@Param("username") String username);
+
+    @Query("SELECT m FROM Mission m JOIN User u ON m MEMBER OF u.missionsAcomplished WHERE u.username = :username")
+    Optional<Mission[]> getMissionsAcomplishedByUser(@Param("username") String username);
 
 }

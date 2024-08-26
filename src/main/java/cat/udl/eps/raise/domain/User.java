@@ -103,7 +103,4 @@ public class User extends UriEntity<Long> implements UserDetails {
 		return true;
 	}
 
-
-
-
 }
