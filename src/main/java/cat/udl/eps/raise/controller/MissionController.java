@@ -1,19 +1,28 @@
 package cat.udl.eps.raise.controller;
 
 import cat.udl.eps.raise.domain.Mission;
+import cat.udl.eps.raise.domain.User;
 import cat.udl.eps.raise.projection.UserStateDTO;
 import cat.udl.eps.raise.repository.MissionRepository;
 import cat.udl.eps.raise.repository.UserRepository;
 import cat.udl.eps.raise.service.MissionService;
 import cat.udl.eps.raise.service.StatsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.rest.webmvc.BasePathAwareController;
+import org.springframework.data.rest.webmvc.PersistentEntityResource;
+import org.springframework.data.rest.webmvc.PersistentEntityResourceAssembler;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import javax.swing.text.html.Option;
+import java.util.*;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+
+import static org.springframework.http.ResponseEntity.notFound;
+import static org.springframework.http.ResponseEntity.ok;
 
 @BasePathAwareController
 @RestController
@@ -38,20 +47,20 @@ public class MissionController {
   }
 
   @GetMapping("/missions/check")
-  public @ResponseBody ResponseEntity<List<String>> checkAllMission( @RequestParam String username) {
+  public @ResponseBody ResponseEntity<List<String>> checkAllMission(@RequestParam String username) {
     List<String> completedMissions = new LinkedList<>();
 
-      Optional<UserStateDTO> userDto = this.statsService.getUserStats(username);
-      if(userDto.isPresent()){
-        for(Mission m: userDto.get().getUser().getMissionsAccepted()){
-          boolean result = missionService.checkMission(userDto.get(), m);
-          userRepository.save(userDto.get().getUser());
-          if(result){
-            completedMissions.add(m.getRuleName());
-          }
+    Optional<UserStateDTO> userDto = this.statsService.getUserStats(username);
+    if (userDto.isPresent()) {
+      for (Mission m : userDto.get().getUser().getMissionsAccepted()) {
+        boolean result = missionService.checkMission(userDto.get(), m);
+        userRepository.save(userDto.get().getUser());
+        if (result) {
+          completedMissions.add(m.getRuleName());
         }
-        return ResponseEntity.ok(completedMissions);
       }
+      return ok(completedMissions);
+    }
 
     return ResponseEntity.notFound().build();
   }
@@ -61,16 +70,63 @@ public class MissionController {
                                                             @RequestParam String username) {
     Optional<Mission> missionRetrieved = missionRepository.findMissionById(missionId);
 
-    if(userRepository.findByUsername(username).isPresent()
-            && missionRetrieved.isPresent()){
+    if (userRepository.findByUsername(username).isPresent()
+            && missionRetrieved.isPresent()) {
       Optional<UserStateDTO> userDto = this.statsService.getUserStats(username);
       Mission mission = missionRetrieved.get();
-      if (userDto.isPresent()){
+      if (userDto.isPresent()) {
         boolean result = missionService.checkMission(userDto.get(), mission);
         userRepository.save(userDto.get().getUser());
-        return ResponseEntity.ok(result);
+        return ok(result);
       }
     }
     return ResponseEntity.notFound().build();
+  }
+
+  @GetMapping("/missions/acceptedByUser/{idUser}")
+  public ResponseEntity<?> getAcceptedMissionsByUser(
+          PersistentEntityResourceAssembler resourceAssembler, @PathVariable Long idUser) {
+
+    Optional<User> optUser = this.userRepository.findById(idUser);
+    if(optUser.isPresent()) {
+      Set<Mission> missionsToRetrieve = new HashSet<>(optUser.get().getMissionsAccepted());
+      return ok(resourceAssembler.toCollectionModel(missionsToRetrieve));
+    }
+    return notFound().build();
+  }
+
+  @GetMapping("/missions/accomplishedByUser/{idUser}")
+  public ResponseEntity<?> getAccomplishedMissionsByUser(
+          PersistentEntityResourceAssembler resourceAssembler, @PathVariable Long idUser) {
+
+    Optional<User> optUser = this.userRepository.findById(idUser);
+    if(optUser.isPresent()) {
+      Set<Mission> missionsToRetrieve = new HashSet<>(optUser.get().getMissionsAcomplished());
+      return ok(resourceAssembler.toCollectionModel(missionsToRetrieve));
+    }
+    return notFound().build();
+  }
+
+  @GetMapping("/missions/othersForUser/{idUser}")
+  public ResponseEntity<?> getOtherMissionsForUser(
+          PersistentEntityResourceAssembler resourceAssembler, @PathVariable Long idUser) {
+
+    Optional<User> optUser = this.userRepository.findById(idUser);
+    if(optUser.isPresent()){
+      Iterable<Mission> missions = this.missionRepository.findAllByOrderByLevelAsc();
+      List<Mission> missionsToRetrieve = new LinkedList<>();
+      Stream<Mission> stream = StreamSupport.stream(missions.spliterator(), false);
+      Set<Mission> missionsToRemove = new HashSet<>(optUser.get().getMissionsAccepted());
+      missionsToRemove.addAll(optUser.get().getMissionsAcomplished());
+
+      missions.forEach(mission -> {
+        if(!missionsToRemove.contains(mission)){
+          missionsToRetrieve.add(mission);
+        }
+      });
+
+      return ok(resourceAssembler.toCollectionModel(missionsToRetrieve));
+    }
+    return notFound().build();
   }
 }

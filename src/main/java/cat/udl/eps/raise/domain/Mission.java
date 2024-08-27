@@ -1,11 +1,13 @@
 package cat.udl.eps.raise.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Data
@@ -29,6 +31,14 @@ public class Mission extends UriEntity<Long>{
     @NotNull
     @Column(unique=true)
     private String ruleName;
+
+    @JsonBackReference
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "missionsAccepted")
+    private Set<User> usersAccepted;
+
+    @JsonBackReference
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "missionsAcomplished")
+    private Set<User> usersAccomplished;
 
     @Override
     public boolean equals(Object o) {

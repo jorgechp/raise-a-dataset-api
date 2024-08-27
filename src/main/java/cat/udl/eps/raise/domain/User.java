@@ -1,5 +1,6 @@
 package cat.udl.eps.raise.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import jakarta.persistence.*;
@@ -59,9 +60,11 @@ public class User extends UriEntity<Long> implements UserDetails {
 	private Set<Compliance> compliances;
 
 	@ManyToMany
+	@JsonManagedReference
 	private Set<Mission> missionsAccepted;
 
 	@ManyToMany
+	@JsonManagedReference
 	private Set<Mission> missionsAcomplished;
 
 	public void encodePassword() {
@@ -102,5 +105,6 @@ public class User extends UriEntity<Long> implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
+
 
 }
