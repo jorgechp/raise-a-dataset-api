@@ -44,6 +44,7 @@ public class WebSecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/identity").permitAll()
                 .requestMatchers(HttpMethod.POST, "/password").hasRole("USER")
                 .requestMatchers(HttpMethod.GET, "/missions/check").hasRole("USER")
+                .requestMatchers(HttpMethod.POST, "/missions/*").hasRole("USER")
                 .requestMatchers(HttpMethod.GET, "/users/*").authenticated()
                 .requestMatchers(HttpMethod.PATCH, "/users/*").hasRole("USER")
                 .requestMatchers(HttpMethod.POST, "/repositories/*").hasRole("USER")
