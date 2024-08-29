@@ -10,8 +10,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.net.URL;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 
 @Configuration
 
@@ -19,22 +20,18 @@ public class DroolsConfig {
     private final KieServices kieServices = KieServices.Factory.get();
 
     @Bean
-    public KieContainer getKieContainer() {
+    public KieContainer getKieContainer()  {
         KieFileSystem kieFileSystem = kieServices.newKieFileSystem();
 
         ClassLoader classLoader = getClass().getClassLoader();
         URL missionsUrl = classLoader.getResource("missions");
 
         if (missionsUrl != null) {
-            File missionsDirectory = new File(missionsUrl.getFile());
+            String decodedPath = URLDecoder.decode(missionsUrl.getFile(), StandardCharsets.UTF_8);
+            File missionsDirectory = new File(decodedPath);
 
             if (missionsDirectory.isDirectory()) {
-                File[] drlFiles = missionsDirectory.listFiles(new FilenameFilter() {
-                    @Override
-                    public boolean accept(File dir, String name) {
-                        return name.endsWith(".drl");
-                    }
-                });
+                File[] drlFiles = missionsDirectory.listFiles((dir, name) -> name.endsWith(".drl"));
 
                 assert drlFiles != null;
                 for (File drlFile : drlFiles) {
