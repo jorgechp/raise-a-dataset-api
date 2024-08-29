@@ -168,6 +168,7 @@ public class DBInitialization {
             raiseInstance.setDataset(createdDataset);
             raiseInstance.setRepository(createdRepository1);
             raiseInstance.setUniqueIdentifier("10.1080/02626667.2018.1560449");
+            raiseInstance.setAgreeToRaise(false);
             raiseInstanceRepository.save(raiseInstance);
 
         }
@@ -178,8 +179,24 @@ public class DBInitialization {
             raiseInstance2.setDate(LocalDate.now());
             raiseInstance2.setDataset(createdDataset);
             raiseInstance2.setRepository(createdRepository2);
+            raiseInstance2.setAgreeToRaise(true);
+            raiseInstance2.setNextFeedAction(LocalDate.of(2023, 9, 3));
+            raiseInstance2.setFeedFrequencyInDays((short) 10);
             raiseInstance2.setUniqueIdentifier("10.1080/02626667.2018.1560448");
             raiseInstanceRepository.save(raiseInstance2);
+        }
+
+        if(raiseInstanceRepository.findByUniqueIdentifier("10.1080/12626667.2018.1560448").isEmpty()){
+            RaiseInstance raiseInstance3 = new RaiseInstance();
+            raiseInstance3.setUser(this.demoUser);
+            raiseInstance3.setDate(LocalDate.now());
+            raiseInstance3.setDataset(createdDataset);
+            raiseInstance3.setRepository(createdRepository2);
+            raiseInstance3.setAgreeToRaise(true);
+            raiseInstance3.setNextFeedAction(LocalDate.of(2025, 9, 3));
+            raiseInstance3.setFeedFrequencyInDays((short) 10);
+            raiseInstance3.setUniqueIdentifier("10.1080/12626667.2018.1560448");
+            raiseInstanceRepository.save(raiseInstance3);
         }
 
         if (fairPrincipleRepository.count() == 0){

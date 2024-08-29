@@ -32,9 +32,18 @@ public class RaiseInstance extends UriEntity<Long> {
     @OneToMany
     private Set<Compliance> compliances;
 
+    @NotNull
     private LocalDate date;
 
     @NotNull
+    private boolean isAgreeToRaise;
+
+    @NotNull
+    private short feedFrequencyInDays;
+
+    @NotNull
     private boolean isInRisk;
+
+    private LocalDate nextFeedAction;
 
 }

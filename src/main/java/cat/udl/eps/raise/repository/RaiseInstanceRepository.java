@@ -1,11 +1,14 @@
 package cat.udl.eps.raise.repository;
 
 import cat.udl.eps.raise.domain.RaiseInstance;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
+import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,4 +36,11 @@ public interface RaiseInstanceRepository extends CrudRepository<RaiseInstance, L
     Optional<List<RaiseInstance>> findAllByUserUsername(@Param("username") String username);
 
     int countAllByUserUsername(@Param("username") String username);
+
+    Optional<List<RaiseInstance>> findAllByIsAgreeToRaiseIsTrue();
+
+    Optional<List<RaiseInstance>> findAllByIsAgreeToRaiseIsTrueAndNextFeedActionBefore(@Param("date") LocalDate date);
+
+    @Query("SELECT r FROM RaiseInstance r WHERE r.isAgreeToRaise = true AND r.nextFeedAction < CURRENT_DATE")
+    Collection<RaiseInstance> findAllByIsAgreeToRaiseIsTrueAndNextFeedActionBeforeCurrentDate();
 }
