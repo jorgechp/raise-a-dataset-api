@@ -17,6 +17,7 @@ import java.nio.charset.StandardCharsets;
 @Configuration
 
 public class DroolsConfig {
+    public static final String RESOURCE_MISSIONS_FOLDER = "missions";
     private final KieServices kieServices = KieServices.Factory.get();
 
     @Bean
@@ -24,7 +25,7 @@ public class DroolsConfig {
         KieFileSystem kieFileSystem = kieServices.newKieFileSystem();
 
         ClassLoader classLoader = getClass().getClassLoader();
-        URL missionsUrl = classLoader.getResource("missions");
+        URL missionsUrl = classLoader.getResource(RESOURCE_MISSIONS_FOLDER);
 
         if (missionsUrl != null) {
             String decodedPath = URLDecoder.decode(missionsUrl.getFile(), StandardCharsets.UTF_8);
