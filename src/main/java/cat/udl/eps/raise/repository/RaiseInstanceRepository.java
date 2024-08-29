@@ -1,6 +1,7 @@
 package cat.udl.eps.raise.repository;
 
 import cat.udl.eps.raise.domain.RaiseInstance;
+import cat.udl.eps.raise.projection.RaiseInstanceDTO;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -37,10 +38,31 @@ public interface RaiseInstanceRepository extends CrudRepository<RaiseInstance, L
 
     int countAllByUserUsername(@Param("username") String username);
 
-    Optional<List<RaiseInstance>> findAllByIsAgreeToRaiseIsTrue();
+    Optional<List<RaiseInstance>> findAllByIsAgreeToRaise(@Param("isAgreeToRaise") boolean isAgreeToRaise);
+
+    @Query("SELECT new cat.udl.eps.raise.projection.RaiseInstanceDTO(ri.id, d.id, r.id, d.name, r.name, ri.isAgreeToRaise, ri.nextFeedAction, ri.feedFrequencyInDays) " +
+            "FROM RaiseInstance ri INNER JOIN Dataset d ON ri.dataset.id = d.id INNER JOIN Repository r ON ri.repository.id = r.id " +
+            "WHERE ri.isAgreeToRaise = :isAgreeToRaise AND ri.user.id = :userId")
+    RaiseInstanceDTO[] findAllByIsAgreeToRaiseAndUserId(@Param("isAgreeToRaise") boolean isAgreeToRaise, @Param("userId") Long userId);
 
     Optional<List<RaiseInstance>> findAllByIsAgreeToRaiseIsTrueAndNextFeedActionBefore(@Param("date") LocalDate date);
 
-    @Query("SELECT r FROM RaiseInstance r WHERE r.isAgreeToRaise = true AND r.nextFeedAction < CURRENT_DATE")
-    Collection<RaiseInstance> findAllByIsAgreeToRaiseIsTrueAndNextFeedActionBeforeCurrentDate();
+    Optional<List<RaiseInstance>> findAllByIsAgreeToRaiseIsTrueAndNextFeedActionBeforeAndUserId(@Param("date") LocalDate date, @Param("userId") Long userId);
+
+    @Query("SELECT new cat.udl.eps.raise.projection.RaiseInstanceDTO(ri.id, d.id, r.id, d.name, r.name, ri.isAgreeToRaise, ri.nextFeedAction, ri.feedFrequencyInDays) " +
+            "FROM RaiseInstance ri INNER JOIN Dataset d ON ri.dataset.id = d.id INNER JOIN Repository r ON ri.repository.id = r.id " +
+            "WHERE ri.isAgreeToRaise = true AND ri.nextFeedAction < CURRENT_DATE")
+    RaiseInstanceDTO[] findAllByIsAgreeToRaiseIsTrueAndNextFeedActionBeforeCurrentDate();
+    @Query("SELECT new cat.udl.eps.raise.projection.RaiseInstanceDTO(ri.id, d.id, r.id, d.name, r.name, ri.isAgreeToRaise, ri.nextFeedAction, ri.feedFrequencyInDays) " +
+            "FROM RaiseInstance ri INNER JOIN Dataset d ON ri.dataset.id = d.id INNER JOIN Repository r ON ri.repository.id = r.id " +
+            "WHERE ri.isAgreeToRaise = true AND ri.nextFeedAction < CURRENT_DATE AND ri.user.id = :userId")
+    RaiseInstanceDTO[] findAllByIsAgreeToRaiseIsTrueAndNextFeedActionBeforeCurrentDateAndUserId(@Param("userId")  Long userId);
+    @Query("SELECT new cat.udl.eps.raise.projection.RaiseInstanceDTO(ri.id, d.id, r.id, d.name, r.name, ri.isAgreeToRaise, ri.nextFeedAction, ri.feedFrequencyInDays) " +
+            "FROM RaiseInstance ri INNER JOIN Dataset d ON ri.dataset.id = d.id INNER JOIN Repository r ON ri.repository.id = r.id " +
+            "WHERE ri.isAgreeToRaise = true AND ri.nextFeedAction >= CURRENT_DATE")
+    RaiseInstanceDTO[] findAllByIsAgreeToRaiseIsTrueAndNextFeedActionAfterCurrentDate();
+    @Query("SELECT new cat.udl.eps.raise.projection.RaiseInstanceDTO(ri.id, d.id, r.id, d.name, r.name, ri.isAgreeToRaise, ri.nextFeedAction, ri.feedFrequencyInDays) " +
+            "FROM RaiseInstance ri INNER JOIN Dataset d ON ri.dataset.id = d.id INNER JOIN Repository r ON ri.repository.id = r.id " +
+            "WHERE ri.isAgreeToRaise = true AND ri.nextFeedAction >= CURRENT_DATE AND ri.user.id = :userId")
+    RaiseInstanceDTO[] findAllByIsAgreeToRaiseIsTrueAndNextFeedActionAfterCurrentDateAndUserId(@Param("userId") Long userId);
 }
