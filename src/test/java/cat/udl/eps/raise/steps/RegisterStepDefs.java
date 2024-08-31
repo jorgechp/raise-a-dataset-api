@@ -1,6 +1,5 @@
 package cat.udl.eps.raise.steps;
 
-import cat.udl.eps.raise.domain.Admin;
 import cat.udl.eps.raise.domain.User;
 import cat.udl.eps.raise.repository.UserRepository;
 import io.cucumber.java.en.And;
@@ -52,7 +51,7 @@ public class RegisterStepDefs {
   @Given("There is a registered admin with username {string} and password {string} and email {string}")
   public void thereIsARegisteredAdminWithUsernameAndPasswordAndEmail(String username, String password, String email) {
     if (userRepository.findByUsername(username).isEmpty()) {
-      User user = new Admin();
+      User user = new User();
       user.setEmail(email);
       user.setUsername(username);
       user.setPassword(password);

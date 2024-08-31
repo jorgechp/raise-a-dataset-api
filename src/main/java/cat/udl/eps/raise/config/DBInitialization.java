@@ -28,11 +28,14 @@ public class DBInitialization {
     private final ComplianceRepository fairVerificationInstanceRepository;
     private final RaiseInstanceRepository raiseInstanceRepository;
     private final RiskDatasetRepository riskDatasetRepository;
-
     private final MissionRepository missionRepository;
+
+    private final RoleRepository roleRepository;
 
 
     private User demoUser;
+
+
 
     public DBInitialization(UserRepository userRepository,
                             RepositoryRepository repositoryRepository,
@@ -41,7 +44,8 @@ public class DBInitialization {
                             RaiseInstanceRepository raiseInstanceRepository,
                             ComplianceRepository fairVerificationInstanceRepository,
                             MissionRepository missionRepository,
-                            RiskDatasetRepository riskDatasetRepository) {
+                            RiskDatasetRepository riskDatasetRepository,
+                            RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.repositoryRepository = repositoryRepository;
         this.datasetRepository = datasetRepository;
@@ -50,6 +54,7 @@ public class DBInitialization {
         this.fairVerificationInstanceRepository = fairVerificationInstanceRepository;
         this.riskDatasetRepository = riskDatasetRepository;
         this.missionRepository = missionRepository;
+        this.roleRepository = roleRepository;
     }
 
     @PostConstruct
@@ -59,28 +64,42 @@ public class DBInitialization {
         RaiseInstance raiseInstance = null, raiseInstance2 = null;
         FAIRPrinciple fairPrinciple = null, fairPrinciple2 = null;
 
+        Role adminRole = new Role();
+        adminRole.setName("ROLE_ADMIN");
+        Role userole = new Role();
+        userole.setName("ROLE_USER");
+        Role guestole = new Role();
+        guestole.setName("ROLE_GUEST");
+        Role bannedRole = new Role();
+        bannedRole.setName("ROLE_BAN");
+
+        roleRepository.save(adminRole);
+        roleRepository.save(userole);
+        roleRepository.save(guestole);
+        roleRepository.save(bannedRole);
+
         // Default user
-        if (userRepository.findByUsername("demo").isEmpty()) {
+        if (userRepository.findByUsername("admin").isEmpty()) {
             User user = new User();
             user.setEmail("demo@sample.app");
-            user.setUsername("demo");
+            user.setUsername("admin");
             user.setPassword(defaultPassword);
             user.encodePassword();
+            user.setRoles(Arrays.asList(adminRole, userole));
             userRepository.save(user);
             this.demoUser = user;
         }else{
             this.demoUser = userRepository.findByUsername("demo").get();
         }
-        if (Arrays.asList(activeProfiles.split(",")).contains("test")) {
-            // Testing instances
-            if (!userRepository.existsByUsername("test")) {
-                User user = new User();
-                user.setEmail("test@sample.app");
-                user.setUsername("test");
-                user.setPassword(defaultPassword);
-                user.encodePassword();
-                userRepository.save(user);
-            }
+
+        if (userRepository.findByUsername("user").isEmpty()) {
+            User user = new User();
+            user.setEmail("user@sample.app");
+            user.setUsername("user");
+            user.setPassword(defaultPassword);
+            user.encodePassword();
+            user.setRoles(List.of(userole));
+            userRepository.save(user);
         }
 
         if(repositoryRepository.findByName("demoRepository").isEmpty()){

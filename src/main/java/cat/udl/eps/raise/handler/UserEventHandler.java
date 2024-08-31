@@ -47,6 +47,11 @@ public class UserEventHandler {
         userRepository.save(user);
     }
 
+    @HandleBeforeSave
+    public void handleUserBeforeSave(User user) {
+        logger.info("After updating: {}", user.toString());
+    }
+
     @HandleAfterSave
     public void handleUserPostSave(User user) {
         logger.info("After updating: {}", user.toString());

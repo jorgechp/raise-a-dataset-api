@@ -1,6 +1,5 @@
 package cat.udl.eps.raise.domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import jakarta.persistence.*;
@@ -10,14 +9,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "AppUser") //Avoid collision with system table User
@@ -60,11 +57,9 @@ public class User extends UriEntity<Long> implements UserDetails {
 	private Set<Compliance> compliances;
 
 	@ManyToMany
-	@JsonManagedReference
 	private Set<Mission> missionsAccepted;
 
 	@ManyToMany
-	@JsonManagedReference
 	private Set<Mission> missionsAcomplished;
 
 	public void encodePassword() {
@@ -79,11 +74,24 @@ public class User extends UriEntity<Long> implements UserDetails {
 
 	public void setUsername(String username) { this.username = username; }
 
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(
+			name = "users_roles",
+			joinColumns = @JoinColumn(
+					name = "user_id", referencedColumnName = "id"),
+			inverseJoinColumns = @JoinColumn(
+					name = "role_id", referencedColumnName = "id"))
+	private Collection<Role> roles;
+
 	@Override
 	@JsonValue(value = false)
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER");
+		List<GrantedAuthority> authorities = new ArrayList<>();
+		for (Role role : roles) {
+			authorities.add(new SimpleGrantedAuthority(role.getName()));
+		}
+		return authorities;
 	}
 
 	@Override
@@ -106,5 +114,14 @@ public class User extends UriEntity<Long> implements UserDetails {
 		return true;
 	}
 
-
+	@Override
+	public String toString() {
+		return "User{" +
+				"id=" + id +
+				", username='" + username + '\'' +
+				", email='" + email + '\'' +
+				", password='" + password + '\'' +
+				", passwordReset=" + passwordReset +
+				'}';
+	}
 }
