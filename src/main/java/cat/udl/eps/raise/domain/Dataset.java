@@ -1,12 +1,10 @@
 package cat.udl.eps.raise.domain;
 
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.List;
 import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
@@ -21,7 +19,9 @@ public class Dataset extends AbstractDataset {
     @ManyToMany
     private Set<Repository> repositories;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.DETACH)
     private User rescuedBy;
 
+    @OneToMany(mappedBy = "dataset", cascade = CascadeType.REMOVE)
+    private List<RaiseInstance> raiseInstances;
 }

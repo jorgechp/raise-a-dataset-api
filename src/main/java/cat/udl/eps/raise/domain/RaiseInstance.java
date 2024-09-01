@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -20,16 +22,17 @@ public class RaiseInstance extends UriEntity<Long> {
     @Column(unique = true)
     private String uniqueIdentifier;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     private Dataset dataset;
 
-    @ManyToOne
+    @ManyToOne()
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Repository repository;
 
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.DETACH)
     private User user;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE)
     private Set<Compliance> compliances;
 
     @NotNull
