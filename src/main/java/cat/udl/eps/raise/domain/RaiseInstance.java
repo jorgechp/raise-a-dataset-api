@@ -46,7 +46,6 @@ public class RaiseInstance extends UriEntity<Long> {
 
     @NotNull
     private boolean isInRisk;
-
     private LocalDate nextFeedAction;
 
 }

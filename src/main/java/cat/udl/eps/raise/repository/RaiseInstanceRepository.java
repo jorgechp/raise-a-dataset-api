@@ -9,7 +9,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.time.LocalDate;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,4 +64,8 @@ public interface RaiseInstanceRepository extends CrudRepository<RaiseInstance, L
             "FROM RaiseInstance ri INNER JOIN Dataset d ON ri.dataset.id = d.id INNER JOIN Repository r ON ri.repository.id = r.id " +
             "WHERE ri.isAgreeToRaise = true AND ri.nextFeedAction >= CURRENT_DATE AND ri.user.id = :userId")
     RaiseInstanceDTO[] findAllByIsAgreeToRaiseIsTrueAndNextFeedActionAfterCurrentDateAndUserId(@Param("userId") Long userId);
+
+    @Query("SELECT new cat.udl.eps.raise.projection.RaiseInstanceDTO(ri.id, d.id, r.id, d.name, r.name, ri.isAgreeToRaise, ri.nextFeedAction, ri.feedFrequencyInDays) " +
+            "FROM RaiseInstance ri INNER JOIN Dataset d ON ri.dataset.id = d.id INNER JOIN Repository r ON ri.repository.id = r.id ")
+    RaiseInstanceDTO[] findAllRaiseInstancesDTO();
 }

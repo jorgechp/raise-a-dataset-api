@@ -59,6 +59,7 @@ public class WebSecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/riskDatasets/*").hasRole("USER")
                 .requestMatchers(HttpMethod.DELETE, "/riskDatasets/*").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.POST, "/riskDatasets/*").hasRole("USER")
+                .requestMatchers(HttpMethod.DELETE, "/raiseInstances/*").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.POST, "/fAIRPrincipleVerificationInstances/*").hasRole("USER")
                 .requestMatchers(HttpMethod.POST, "/*/*").denyAll()
                 .requestMatchers(HttpMethod.PUT, "/*/*").denyAll()
