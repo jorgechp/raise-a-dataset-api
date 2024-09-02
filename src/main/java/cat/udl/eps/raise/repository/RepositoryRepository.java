@@ -9,7 +9,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import java.util.Optional;
 
 @RepositoryRestResource
-public interface RepositoryRepository extends CrudRepository<Repository, Long>, PagingAndSortingRepository<Repository, Long>  {
+public interface RepositoryRepository extends CrudRepository<Repository, Long> {
 
   /* Interface provides automatically, as defined in
    * https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/CrudRepository.html
