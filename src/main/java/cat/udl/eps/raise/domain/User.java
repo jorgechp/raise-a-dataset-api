@@ -26,7 +26,7 @@ public class User extends UriEntity<Long> implements UserDetails {
 
 	public User() {
 		this.compliances = new HashSet<>();
-		this.datasets = new HashSet<>();
+		this.datasetsMaintained = new HashSet<>();
 		this.missionsAccepted = new HashSet<>();
 		this.missionsAcomplished = new HashSet<>();
 	}
@@ -51,7 +51,10 @@ public class User extends UriEntity<Long> implements UserDetails {
 	private boolean passwordReset;
 
 	@ManyToMany
-	private Set<Dataset> datasets;
+	private Set<Dataset> datasetsMaintained;
+
+	@OneToMany
+	private Set<Dataset> datasetsRescued;
 
 	@ManyToMany
 	private Set<Compliance> compliances;
