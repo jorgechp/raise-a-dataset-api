@@ -45,6 +45,8 @@ public class WebSecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/password").hasRole("USER")
                 .requestMatchers(HttpMethod.GET, "/missions/check").hasRole("USER")
                 .requestMatchers(HttpMethod.POST, "/missions/*").hasRole("USER")
+                .requestMatchers(HttpMethod.PATCH, "/missions/*").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/missions/*").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/compliances/*").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.GET, "/users/*").authenticated()
                 .requestMatchers(HttpMethod.PUT, "/users/*").authenticated()
