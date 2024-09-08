@@ -2,6 +2,7 @@ package cat.udl.eps.raise.repository;
 
 import cat.udl.eps.raise.domain.Compliance;
 import cat.udl.eps.raise.projection.ComplianceDTO;
+import cat.udl.eps.raise.projection.ComplianceValidationDTO;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -48,4 +49,12 @@ public interface ComplianceRepository extends
     ComplianceDTO[] retrieveComplianceDTONotEvaluated();
 
     int countAllByAuthorUsername(@Param("text") String text);
+
+    @Query("SELECT new cat.udl.eps.raise.projection.ComplianceValidationDTO(c.id, c.principle.id, c.author.id, c.instance.id, c.instance.repository.id, c.instance.dataset.id, c.author.username, " +
+            " c.instance.repository.name, c.instance.dataset.name, c.principle.namePrefix, c.principle.name, c.principle.category, c.verificationDate, " +
+            " SUM(CASE WHEN v.isPositive THEN 1 ELSE 0 END), " +
+            " SUM(CASE WHEN NOT v.isPositive THEN 1 ELSE 0 END)) " +
+            " FROM Compliance c LEFT JOIN Validation v ON c.id = v.compliance.id  AND v.validator.id = :userId  " +
+            " GROUP BY c.id")
+    ComplianceValidationDTO[] retrieveAllComplianceValidationStatus(@Param("userId") Long userId);
 }

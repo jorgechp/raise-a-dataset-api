@@ -59,6 +59,8 @@ public class WebSecurityConfig {
                 .requestMatchers(HttpMethod.DELETE, "/datasets/*").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.POST, "/fAIRPrinciples/*").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/fAIRPrinciples/*").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PATCH, "/fAIRPrinciples/*").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/fAIRPrinciples/*").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.GET, "/riskDatasets/*").hasRole("USER")
                 .requestMatchers(HttpMethod.DELETE, "/riskDatasets/*").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.POST, "/riskDatasets/*").hasRole("USER")

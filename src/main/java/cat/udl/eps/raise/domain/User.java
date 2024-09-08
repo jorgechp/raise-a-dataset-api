@@ -7,6 +7,8 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -64,6 +66,11 @@ public class User extends UriEntity<Long> implements UserDetails {
 
 	@ManyToMany
 	private Set<Mission> missionsAcomplished;
+
+	@OneToMany
+	@OnDelete(action = OnDeleteAction.SET_NULL)
+	@JoinColumn(referencedColumnName = "id")
+	private Set<Validation> validations;
 
 	public void encodePassword() {
 		this.password = passwordEncoder.encode(this.password);

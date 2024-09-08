@@ -6,6 +6,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
+import java.util.List;
 import java.util.Optional;
 
 @RepositoryRestResource
@@ -25,9 +26,12 @@ public interface ValidationRepository extends
 
     Optional<Validation> findById(@Param("id") Long id);
 
-    Optional<Validation[]> findAllByComplianceId(@Param("id") Long id);
+    Optional<List<Validation>>  findAllByComplianceId(@Param("id") Long id);
 
     boolean existsByComplianceIdAndValidatorId(@Param("id") Long complianceId, @Param("id") Long validatorId);
 
-    int countAllByValidatorUsername(@Param("text") String text);
+    Optional<List<Validation>> findAllByValidatorUsername(@Param("username") String username);
+
+    int countAllByValidatorUsername(@Param("username") String text);
+
 }

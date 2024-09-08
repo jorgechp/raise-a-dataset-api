@@ -19,6 +19,7 @@ public class Compliance extends UriEntity<Long>{
     private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private FAIRPrinciple principle;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
