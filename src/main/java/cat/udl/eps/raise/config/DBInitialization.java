@@ -252,7 +252,7 @@ public class DBInitialization {
         if(missionRepository.findMissionByRuleName("CreateADatasetInstanceMission").isEmpty()){
             Mission m = new Mission();
             m.setRuleName("CreateADatasetInstanceMission");
-            m.setDescription("Create your first dataset intance");
+            m.setDescription("Create your first dataset instance");
             m.setPoints(10);
             m.setLevel(0);
             m.setName("Create a dataset Instance");
