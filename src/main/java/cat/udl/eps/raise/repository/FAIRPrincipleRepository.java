@@ -1,6 +1,6 @@
 package cat.udl.eps.raise.repository;
 
-import cat.udl.eps.raise.domain.FAIRPrinciple;
+import cat.udl.eps.raise.domain.FAIRPrincipleIndicator;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RepositoryRestResource
-public interface FAIRPrincipleRepository extends CrudRepository<FAIRPrinciple, Long>, PagingAndSortingRepository<FAIRPrinciple, Long> {
+public interface FAIRPrincipleRepository extends CrudRepository<FAIRPrincipleIndicator, Long>, PagingAndSortingRepository<FAIRPrincipleIndicator, Long> {
 
   /* Interface provides automatically, as defined in
    * https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/CrudRepository.html
@@ -23,14 +23,14 @@ public interface FAIRPrincipleRepository extends CrudRepository<FAIRPrinciple, L
    * https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.query-creation
    */
 
-   Optional<FAIRPrinciple> findByName(@Param("name") String name);
+   Optional<FAIRPrincipleIndicator> findByName(@Param("name") String name);
 
-   @Query("SELECT fp FROM FAIRPrinciple fp WHERE fp.id IN " +
+   @Query("SELECT fp FROM FAIRPrincipleIndicator fp WHERE fp.id IN " +
            "(SELECT fpvi.principle.id FROM Compliance fpvi WHERE fpvi.instance.id = :raiseInstanceId)")
-   Optional<List<FAIRPrinciple>> findCompletedPrinciplesByRaiseInstanceId(@Param("raiseInstanceId") Long raiseInstanceId);
+   Optional<List<FAIRPrincipleIndicator>> findCompletedPrinciplesByRaiseInstanceId(@Param("raiseInstanceId") Long raiseInstanceId);
 
-   @Query("SELECT fp FROM FAIRPrinciple fp WHERE fp.id NOT IN " +
+   @Query("SELECT fp FROM FAIRPrincipleIndicator fp WHERE fp.id NOT IN " +
            "(SELECT fpvi.principle.id FROM Compliance fpvi WHERE fpvi.instance.id = :raiseInstanceId)")
-   Optional<List<FAIRPrinciple>> findPendingPrinciplesByRaiseInstanceId(@Param("raiseInstanceId") Long raiseInstanceId);
+   Optional<List<FAIRPrincipleIndicator>> findPendingPrinciplesByRaiseInstanceId(@Param("raiseInstanceId") Long raiseInstanceId);
 
 }

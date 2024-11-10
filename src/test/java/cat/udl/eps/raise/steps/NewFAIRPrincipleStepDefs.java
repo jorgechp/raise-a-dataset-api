@@ -2,7 +2,7 @@ package cat.udl.eps.raise.steps;
 
 
 import cat.udl.eps.raise.domain.FAIRCategories;
-import cat.udl.eps.raise.domain.FAIRPrinciple;
+import cat.udl.eps.raise.domain.FAIRPrincipleIndicator;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.When;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,18 +25,18 @@ public class NewFAIRPrincipleStepDefs {
     public void iRegisterANewFAIRPrincipleWithTheNameAndTheNamePrefixAndTheDescriptionAndTheUrlAndTheCategory(
             String name, String prefix, String description, String url, String category) throws Exception {
 
-        FAIRPrinciple fairPrinciple = new FAIRPrinciple();
-        fairPrinciple.setNamePrefix(prefix);
-        fairPrinciple.setName(name);
-        fairPrinciple.setDescription(description);
-        fairPrinciple.setCategory(FAIRCategories.FINDABILITY);
-        fairPrinciple.setUrl(url);
+        FAIRPrincipleIndicator fairPrincipleIndicator = new FAIRPrincipleIndicator();
+        fairPrincipleIndicator.setNamePrefix(prefix);
+        fairPrincipleIndicator.setName(name);
+        fairPrincipleIndicator.setDescription(description);
+        fairPrincipleIndicator.setCategory(FAIRCategories.FINDABILITY);
+        fairPrincipleIndicator.setUrl(url);
 
         stepDefs.result = stepDefs.mockMvc.perform(
                         post("/fAIRPrinciples")
                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                                 .characterEncoding("utf-8")
-                                .content(stepDefs.mapper.writeValueAsString(fairPrinciple))
+                                .content(stepDefs.mapper.writeValueAsString(fairPrincipleIndicator))
                                 .accept(MediaType.APPLICATION_JSON)
                                 .with(AuthenticationStepDefs.authenticate()))
                 .andDo(print());

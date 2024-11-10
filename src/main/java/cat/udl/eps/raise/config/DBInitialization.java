@@ -65,7 +65,7 @@ public class DBInitialization {
         Dataset createdDataset, createdDataset2;
         Repository createdRepository1, createdRepository2;
         RaiseInstance raiseInstance = null, raiseInstance2 = null;
-        FAIRPrinciple fairPrinciple = null, fairPrinciple2 = null;
+        FAIRPrincipleIndicator fairPrincipleIndicator = null, fairPrincipleIndicator2 = null;
 
         Role adminRole = new Role();
         adminRole.setName("ROLE_ADMIN");
@@ -223,18 +223,18 @@ public class DBInitialization {
 
         if (fairPrincipleRepository.count() == 0){
             FairPrinciplesList fplistClass = new FairPrinciplesList();
-            List<FAIRPrinciple> fpList = fplistClass.getFairPrincipleList();
-            for(FAIRPrinciple fp: fpList){
+            List<FAIRPrincipleIndicator> fpList = fplistClass.getFairPrincipleList();
+            for(FAIRPrincipleIndicator fp: fpList){
                 fairPrincipleRepository.save(fp);
             };
-            fairPrinciple = fpList.get(0);
+            fairPrincipleIndicator = fpList.get(0);
         }
 
         if(raiseInstance != null && fairVerificationInstanceRepository.findByInstanceId(raiseInstance.getId()).isEmpty()){
             Compliance instance = new Compliance();
             instance.setInstance(raiseInstance);
             instance.setAuthor(this.demoUser);
-            instance.setPrinciple(fairPrinciple);
+            instance.setPrinciple(fairPrincipleIndicator);
             instance.setVerificationDate(LocalDate.now());
 
 

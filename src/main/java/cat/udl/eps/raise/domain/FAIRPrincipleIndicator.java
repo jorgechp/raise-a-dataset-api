@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-public class FAIRPrinciple extends UriEntity<Long>{
+public class FAIRPrincipleIndicator extends UriEntity<Long>{
     @Id
     @GeneratedValue
     private Long id;
