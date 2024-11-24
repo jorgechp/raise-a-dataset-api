@@ -31,5 +31,7 @@ public class Validation extends UriEntity<Long>{
     @NotNull
     private boolean isPositive;
 
+    @Lob
+    @Column( length = 10000 )
     private String negativeComment;
 }

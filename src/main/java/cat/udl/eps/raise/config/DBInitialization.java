@@ -75,11 +75,24 @@ public class DBInitialization {
         guestole.setName("ROLE_GUEST");
         Role bannedRole = new Role();
         bannedRole.setName("ROLE_BAN");
+        Role botRole = new Role();
+        botRole.setName("ROLE_BOT");
 
         roleRepository.save(adminRole);
         roleRepository.save(userole);
         roleRepository.save(guestole);
         roleRepository.save(bannedRole);
+        roleRepository.save(botRole);
+
+        // Automatic validation user
+
+        User userBot = new User();
+        userBot.setUsername("ValidatorBot");
+        userBot.setEmail("fake@mail.raise.dataset");
+        userBot.setPassword("12345IdontCareThisUserCannotLogin");
+        userBot.encodePassword();
+        userBot.setRoles(Arrays.asList(adminRole, userole));
+        userRepository.save(userBot);
 
         // Default user
         if (userRepository.findByUsername("admin").isEmpty()) {

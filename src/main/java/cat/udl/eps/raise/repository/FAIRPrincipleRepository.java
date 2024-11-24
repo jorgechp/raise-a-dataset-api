@@ -25,6 +25,8 @@ public interface FAIRPrincipleRepository extends CrudRepository<FAIRPrincipleInd
 
    Optional<FAIRPrincipleIndicator> findByName(@Param("name") String name);
 
+   Optional<FAIRPrincipleIndicator> findByNamePrefix(@Param("namePrefix") String namePrefix);
+
    @Query("SELECT fp FROM FAIRPrincipleIndicator fp WHERE fp.id IN " +
            "(SELECT fpvi.principle.id FROM Compliance fpvi WHERE fpvi.instance.id = :raiseInstanceId)")
    Optional<List<FAIRPrincipleIndicator>> findCompletedPrinciplesByRaiseInstanceId(@Param("raiseInstanceId") Long raiseInstanceId);
