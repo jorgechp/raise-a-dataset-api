@@ -1,21 +1,23 @@
 package cat.udl.eps.raise.projection;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
 public class VerificationRequestDTO {
     private Long instanceId;
     private Long indicatorId;
-    private String uri;
+    private String uniqueIdentifier;
 
-    public VerificationRequestDTO(Long instanceId, String uri) {
+    public VerificationRequestDTO(@JsonProperty("instanceId") Long instanceId,
+                                  @JsonProperty("uniqueIdentifier")  String uniqueIdentifier) {
         this.instanceId = instanceId;
-        this.uri = uri;
+        this.uniqueIdentifier = uniqueIdentifier;
     }
 
-    public VerificationRequestDTO(Long instanceId, Long indicatorId, String uri) {
+    public VerificationRequestDTO(Long instanceId, Long indicatorId, String uniqueIdentifier) {
         this.instanceId = instanceId;
         this.indicatorId = indicatorId;
-        this.uri = uri;
+        this.uniqueIdentifier = uniqueIdentifier;
     }
 }

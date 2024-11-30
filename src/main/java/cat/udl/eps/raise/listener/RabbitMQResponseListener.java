@@ -115,11 +115,13 @@ public class RabbitMQResponseListener implements MessageListener {
                                          String indicatorName,
                                          List<VerificationIndicatorResponseDTO> verificationIndicatorResultList) {
         Optional<String> validationComments = isValidationErrorNegative(verificationIndicatorResultList);
-        fairPrincipleRepository.findByNamePrefix(indicatorName).ifPresent(indicator -> {
-            LocalDate currentDate = LocalDate.now();
-            Compliance compliance = createCompliance(botUser, raiseInstance, indicator, currentDate);
-            validationRepository.save(createValidation(botUser, compliance, currentDate, validationComments));
-        });
+        if (validationComments.isEmpty()){
+            fairPrincipleRepository.findByNamePrefix(indicatorName).ifPresent(indicator -> {
+                LocalDate currentDate = LocalDate.now();
+                Compliance compliance = createCompliance(botUser, raiseInstance, indicator, currentDate);
+                validationRepository.save(createValidation(botUser, compliance, currentDate, true, null));
+            });
+        }
     }
 
     private Compliance createCompliance(User botUser,
@@ -135,18 +137,17 @@ public class RabbitMQResponseListener implements MessageListener {
 
     private Validation createValidation(User botUser,
                                         Compliance compliance,
-                                        LocalDate currentDate, Optional<String> validationComments) {
+                                        LocalDate currentDate,
+                                        boolean isValid,
+                                        String validationComments) {
         Validation validation = new Validation();
         validation.setValidator(botUser);
         validation.setCompliance(compliance);
         validation.setValidationDate(currentDate);
-        validationComments.ifPresent(comments -> {
-            boolean isValid = comments.isEmpty();
-            validation.setPositive(isValid);
-            if (!isValid) {
-                validation.setNegativeComment(comments);
-            }
-        });
+        validation.setPositive(isValid);
+        if(!isValid){
+            validation.setNegativeComment(validationComments);
+        }
         return validation;
     }
 }
