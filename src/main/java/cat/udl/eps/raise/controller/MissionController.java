@@ -7,6 +7,8 @@ import cat.udl.eps.raise.repository.MissionRepository;
 import cat.udl.eps.raise.repository.UserRepository;
 import cat.udl.eps.raise.service.MissionService;
 import cat.udl.eps.raise.service.StatsService;
+import jakarta.transaction.Transactional;
+import org.hibernate.StaleObjectStateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.rest.webmvc.BasePathAwareController;
@@ -14,6 +16,9 @@ import org.springframework.data.rest.webmvc.PersistentEntityResource;
 import org.springframework.data.rest.webmvc.PersistentEntityResourceAssembler;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.swing.text.html.Option;
@@ -45,8 +50,13 @@ public class MissionController {
     this.statsService = statsService;
     this.missionRepository = missionRepository;
   }
-
+  @Retryable(
+          retryFor = {StaleObjectStateException.class},
+          maxAttempts = 3,
+          backoff = @Backoff(delay = 500)
+  )
   @GetMapping("/missions/check")
+  @Transactional
   public @ResponseBody ResponseEntity<List<String>> checkAllMission(@RequestParam String username) {
     List<String> completedMissions = new LinkedList<>();
 
@@ -64,6 +74,7 @@ public class MissionController {
 
     return ResponseEntity.notFound().build();
   }
+
 
   @GetMapping("/missions/{missionId}/check")
   public @ResponseBody ResponseEntity<Boolean> checkMission(@PathVariable Long missionId,
