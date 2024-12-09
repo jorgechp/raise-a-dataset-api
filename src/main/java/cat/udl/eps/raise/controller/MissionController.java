@@ -52,7 +52,7 @@ public class MissionController {
   }
   @Retryable(
           retryFor = {StaleObjectStateException.class},
-          maxAttempts = 3,
+          maxAttempts = 2,
           backoff = @Backoff(delay = 500)
   )
   @GetMapping("/missions/check")
@@ -126,7 +126,7 @@ public class MissionController {
     if(optUser.isPresent()){
       Iterable<Mission> missions = this.missionRepository.findAllByOrderByLevelAsc();
       List<Mission> missionsToRetrieve = new LinkedList<>();
-      Stream<Mission> stream = StreamSupport.stream(missions.spliterator(), false);
+      StreamSupport.stream(missions.spliterator(), false);
       Set<Mission> missionsToRemove = new HashSet<>(optUser.get().getMissionsAccepted());
       missionsToRemove.addAll(optUser.get().getMissionsAcomplished());
 
