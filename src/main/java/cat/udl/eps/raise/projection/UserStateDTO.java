@@ -6,7 +6,10 @@ import lombok.Data;
 @Data
 public class UserStateDTO {
     private User user;
+
     private int numberOfValidations;
-    private int numberOfIndicators;
+    private int numberOfCompliances;
     private int numberOfDatasetInstances;
+    private int numberOfDatasetRescued;
+    private int totalScore;
 }

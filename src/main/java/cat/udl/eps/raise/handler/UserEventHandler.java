@@ -2,6 +2,7 @@ package cat.udl.eps.raise.handler;
 
 import cat.udl.eps.raise.domain.User;
 import cat.udl.eps.raise.repository.UserRepository;
+import cat.udl.eps.raise.util.ScoreUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
@@ -16,8 +17,11 @@ public class UserEventHandler {
 
     final UserRepository userRepository;
 
-    public UserEventHandler(UserRepository userRepository) {
+    final ScoreUtils scoreUtils;
+
+    public UserEventHandler(UserRepository userRepository, ScoreUtils scoreUtils) {
         this.userRepository = userRepository;
+        this.scoreUtils = scoreUtils;
     }
 
     @HandleBeforeCreate
@@ -69,5 +73,14 @@ public class UserEventHandler {
     @HandleAfterLinkSave
     public void handleUserPostLinkSave(User user, Object o) {
         logger.info("After linking: {} to {}", user.toString(), o.toString());
+        user.setScore(this.scoreUtils.getScore(user));
+        userRepository.save(user);
+    }
+
+    @HandleAfterLinkDelete
+    public void handleUserPostLinkDelete(User user, Object o) {
+        logger.info("After remove linking: {} to {}", user.toString(), o.toString());
+        user.setScore(this.scoreUtils.getScore(user));
+        userRepository.save(user);
     }
 }

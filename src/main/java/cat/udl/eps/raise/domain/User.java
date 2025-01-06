@@ -31,6 +31,7 @@ public class User extends UriEntity<Long> implements UserDetails {
 		this.datasetsMaintained = new HashSet<>();
 		this.missionsAccepted = new HashSet<>();
 		this.missionsAcomplished = new HashSet<>();
+		this.score = 0;
 	}
 
 	@Id
@@ -38,6 +39,9 @@ public class User extends UriEntity<Long> implements UserDetails {
 	private Long id;
 
 	private String username;
+
+	@Length(min = 16, max = 16)
+	private String orcid;
 
 	@NotBlank
 	@Email
@@ -66,6 +70,8 @@ public class User extends UriEntity<Long> implements UserDetails {
 
 	@ManyToMany
 	private Set<Mission> missionsAcomplished;
+
+	private int score;
 
 	@OneToMany
 	@OnDelete(action = OnDeleteAction.SET_NULL)
